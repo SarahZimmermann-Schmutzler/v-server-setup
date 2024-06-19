@@ -21,7 +21,7 @@ It is used to encrypt messages that can only be decrypted with the corresponding
 #### Procedure  
 open the program *Git Bash* as admin  
 create a ED25519 SSH-Key pair (more secure than RSA SSH-Key pair)  
-    `ssh-keygen -t ed25519`  
+	`ssh-keygen -t ed25519`  
 choose to use a password or not
 
 ### Store the SSH-Key on your VM  
