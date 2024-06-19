@@ -105,37 +105,22 @@ To get our own homepage we create the folder *alternatives* under the path
 > `sudo mkdir /var/www/alternatives/alternate-index-html`  
   
 You can write:  
-> `<!DOCTYPE html>`
-> `<html>`
-     <head>  
-      <meta charset="utf-8">  
-      <title>Hello, Nginx!</title>  
-     </head>  
-     <body>  
-      <h1>Hello, I am an alternative Homepage for Nginx</h1>  
-      <p>Noice to see ya :)</p>  
-     </body>  
-     </html>`  
-we have a html now and we want Nginx to load it. create a Nginx config file  
-    `sudo nano /etc/nginx/sites-enabled/alternatives`  
-    i: by default there is only the default config file that loads the current homepage `/etc/nginx/sites-enabled/default`  
-create a server and a location block  
-    `server {  
-            listen 8081;  
-            listen [::]: 8081;  
-            root /var/www/alternatives;  
-            index alternate-index.html;  
-            location / {  
-                       try_files $uri $uri/ =404;  
-            }  
-     }`  
-wait what?  
-    i: server block: d  
-    i: listen 8081: s  
-    i: root and index: ss  
-    i: location block: s  
-restart Nginx to update the news  
-    `sudo service nginx restart`  
-our homepage is running on `http://ip-adress_vm`  
-the url `http://ip-address_vm/abc` returns Error 404  
-everything as is should be
+BILD EINFÜGEN  
+3. We have an alternate index.html now and we want Nginx to load it. Create a Nginx config file for this purpose.  
+> `sudo nano /etc/nginx/sites-enabled/alternatives`  
+> `i: by default there is only the default config file that loads the current homepage `/etc/nginx/sites-enabled/default` `  
+  
+4. Create a server- and a location-block    
+BILD EINFÜGEN  
+Wait what?  
+> `i: server block: d`  
+> `i: listen 8081: s`  
+> `i: root and index: ss`  
+> `i: location block: s`  
+  
+5. Restart Nginx to update the news.  
+> `sudo service nginx restart`  
+  
+The alternate homepage is running on `http://ip-adress_vm`?  
+The url `http://ip-address_vm/abc` returns Error 404?  
+Then everything is as it should be. Congrats!
