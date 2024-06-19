@@ -28,7 +28,7 @@ choose to use a password or not
 ### Store the SSH-Key on your VM  
 You can login to your vm without crating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
 Why? Basically every password can be bruteforced.  
-> i: A brute force attack is a method in which an attacker systematically tries all possible combinations of passwords to find the right combination and gain unauthorized access to a system or account.  
+> `i: A brute force attack is a method in which an attacker systematically tries all possible combinations of passwords to find the right combination and gain unauthorized access to a system or account.`  
   
 That's why we want to store the SSH-Key on the vm so that we can login with it instead of a password.
 
