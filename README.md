@@ -44,7 +44,6 @@ What to do now?
 1. Copy the public SSH-Key manually after displaying it:  
 > `cat ~/.ssh/id_ed25519.pub`  
   
-<br>
 2. Login to your VM.  
 > `ssh user_vm@ip-address_vm`  
 enter your password  
@@ -61,16 +60,18 @@ Now we want that NOBODY could login to our VM with a username password combinati
 We have to deactivate the PasswordAuthentication option in the sshd config file.
 
 #### Procedure  
-open the config file with an editor  
-    `sudo nano /etc/ssh/sshd_config`  
-activate the option `PasswordAuthentication` and change from `yes` to `no`  
-restart the ssh service  
-    `sudo systemctl restart ssh.service`  
-how to proof that it worked? we know that the login without password is activated and the SSH-Key connection is working. But we don't know if it is impossible to login with one. We can test ist with:  
-    `ssh -o PubkeyAuthentication=no user_vm@ip-address_vm`  
-if you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` then it worked out  
-    i: The command explicitly disables public key authentication and attempts to use password authentication instead.
-       However, if the server is configured to only accept public keys, authentication will fail.
+1. Open the config file with an editor.  
+> `sudo nano /etc/ssh/sshd_config`  
+  
+2. Activate the option `PasswordAuthentication` and change from `yes` to `no`.  
+  
+3. Restart the ssh service.  
+> `sudo systemctl restart ssh.service`  
+  
+4. How to proof that it worked out? We know that the login without password is activated and the SSH-Key connection is working. But we don't know if it is impossible to login with one. We can test ist with:  
+> `ssh -o PubkeyAuthentication=no user_vm@ip-address_vm`  
+If you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` then it worked out.  
+> `i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.`
 
 ## The Webserver - Nginx 
 Yesssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?  
@@ -81,27 +82,31 @@ There are some reasons why you can't open the VM in the webbrowser. However we n
 ### Intall and activate Nginx
 
 #### Procedure  
-update the vm (you should do it regularly)  
-    `sudo apt update`  
-install nginx  
-    `sudo apt install nginx -y`  
-    i: Why -y? Y stands for yes. The answer of the question the command line would ask you instead in the next step: Are you sure you want to install Nginx?  
-check the status of Nginx  
-    `systemctl status nginx`  
+1. Update the VM (you should do it regularly).  
+> `sudo apt update`  
+  
+2. Install Nginx.  
+> `sudo apt install nginx -y`  
+> `i: Why -y? Y stands for yes. The answer of the question the command line would ask you instead in the next step: Are you sure you want to install Nginx?`  
+  
+3. Check the status of Nginx.  
+> `systemctl status nginx`  
 uhhh, it's already active!
 
 ### Configurate Nginx  
 If we now browse our IP-address we are welcomed from the Nginx homepage. But we want our own homepage, don't we?
 
 #### Procedure  
-the default homepage is stored under `/var/www/html/index.nginx-debian.html`  
-to get our own homepage we create the folder *alternatives* under the path  
-   `sudo mkdir /var/www/alternatives`  
-and gives it an alternate index.html  
-    `sudo mkdir /var/www/alternatives/alternate-index-html`  
-you can write:  
-    `<!DOCTYPE html>  
-     <html>  
+1. The default homepage is stored under `/var/www/html/index.nginx-debian.html`  
+To get our own homepage we create the folder *alternatives* under the path  
+> `sudo mkdir /var/www/alternatives`  
+  
+2. And gives it an alternate index.html.  
+> `sudo mkdir /var/www/alternatives/alternate-index-html`  
+  
+You can write:  
+> `<!DOCTYPE html>`
+> `<html>`
      <head>  
       <meta charset="utf-8">  
       <title>Hello, Nginx!</title>  
