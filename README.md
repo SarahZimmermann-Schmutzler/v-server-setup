@@ -19,34 +19,39 @@ The **public key** can be passed on without hesitation or stored on the server y
 It is used to encrypt messages that can only be decrypted with the corresponding private key.
 
 #### Procedure  
-1. Open the program *Git Bash* as admin  
+1. Open the program **Git Bash** as admin.  
   
-2. Create a ED25519 SSH-Key pair (more secure than RSA SSH-Key pair)  
+2. Create a ED25519 SSH-Key pair (more secure than RSA SSH-Key pair).  
 >`ssh-keygen -t ed25519`  
 choose to use a password or not
 
 ### Store the SSH-Key on your VM  
-You can login to your vm without crating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
+You can login to your VM without crating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
 Why? Basically every password can be bruteforced.  
 > `i: A brute force attack is a method in which an attacker systematically tries all possible combinations of passwords to find the right combination and gain unauthorized access to a system or account.`  
   
-That's why we want to store the SSH-Key on the vm so that we can login with it instead of a password.
+That's why we want to store the SSH-Key on the VM so that we can login with it instead of a password.
 
 #### Procedure  
-copy your public SSH-Key  
-    `ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm`  
-at best the public SSH-Key is now stored in `~/.ssh/authorized_keys` - or not...  
+1. Copy your public SSH-Key.  
+> `ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm`  
+  
+At best the public SSH-Key is now stored in `~/.ssh/authorized_keys` - or not...  
 Why? Honestly I don't know.  
-    i: Note from the future: Maybe the problem were the wrong question marks. I prewrote the command in MSWord and ChatGPT told me, that they are graphic question marks then. So don't do that.  
-copy the public SSH-Key after displey it with:  
-    `cat ~/.ssh/id_ed25519.pub`  
-login to your vm  
-    `ssh user_vm@ip-address_vm`  
+> `i: Note from the future: Maybe the problem were the wrong question marks. I prewrote the command in MSWord and ChatGPT told me, that they are graphic question marks then. So don't do that.`  
+  
+1. Copy the public SSH-Key manually after displaying it:  
+> `cat ~/.ssh/id_ed25519.pub`  
+  
+2. Login to your VM.  
+> `ssh user_vm@ip-address_vm`  
 enter your password  
-at best the vm environment has opened  
-add the SSH-Key to the file authorized_keys and save it  
-    `sudo nano ~/.ssh/authorized_keys`  
-after you logged out from your VM with `logout` or `exit`, you can now login with `ssh user_vm@ip-address_vm` and without password
+  
+At best the vm environment has opened.  
+3. Add the SSH-Key to the file authorized_keys and save it.  
+> `sudo nano ~/.ssh/authorized_keys`  
+  
+After you logged out from your VM with `logout` or `exit`, you can now login with `ssh user_vm@ip-address_vm` and without password.
 
 ### Deactivate the possebility to login with a password  
 Now we want that NOBODY could login to our VM with a username password combination.
