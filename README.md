@@ -203,7 +203,8 @@ Excellent question! Yes, you can!
 2. Test if it worked out.  
 > `sudo nginx -t`  
   
-3. It the Test was successful restart Nginx.  
+3. If the Test was successful, restart Nginx.  
 > `sudo service nginx restart`  
   
-4. Open your IP-address in your browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help.
+4. Open the IP-address of the VM in the browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help, bye!  
+[alternate nginx homepage](http://116.203.104.65/)
