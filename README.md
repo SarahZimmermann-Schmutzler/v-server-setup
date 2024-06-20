@@ -76,14 +76,14 @@ If you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` t
 > `i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.`
 
 ### Alias the SSH connection  
-If you're thinking: `Oh no the command to login to my VM is soooo hard to remember!`, than there are good news. The savior is called shell alias.  
+If you're thinking: `Oh no the command to login to my VM is soooo hard to remember!`, than there are good news. The savior is called **shell alias**.  
 A shell alias is an abbreviation or alternative name for a longer command or sequence of commands in the shell.
 Aliases help commonly used commands run more efficiently and quickly by associating them with shorter or easier-to-remember names.
 
 #### Procedure  
-1. Have a look in the manual of the alias programm.  
+1. Have a look at the manual of the alias programm.  
 > `man alias`  
-Dädum. If you work with the **Git Bash** for Windows there is no `man-command`. Go on with second.  
+Dädum. If you're working with the **Git Bash** for Windows there is no `man-command`. Go on with second.  
   
 2. Define the alias.  
 > `alias vm_connection="ssh user_vm@ip-address_vm"`  
@@ -96,13 +96,13 @@ Dädum. If you work with the **Git Bash** for Windows there is no `man-command`.
 5. Login to your VM with your alias.  
 > `vm_connection`  
   
-Yeah, it worked out! But happens if you close the git bash and start a new session? `Command not found.` Wait, what, why???  
+Yeah, it worked out! But what happens if you close the git bash and start a new session? `Command not found.` Wait, what, why???  
 > `i: By default, aliases are only available for the duration of the current shell session. To make them persistent, you need to define them in one of your shell configuration files.`  
   
 6. Open or create the **bash_profile** script that runs whenever you start a new shell session.  
 > `sudo nano ~/.bash_profile`  
   
-7. Add the following if it is not already listed and save:  
+7. Add the following if it's not already listed and save:  
 BILD EINFÜGEN  
   
 8. Reload the file.  
@@ -122,24 +122,24 @@ Congrats! You can now login to your VM with a short and concise command.
 
 ### SSH config for several identities  
 Are there any other ways to simplify establishing a connection to the VM? Yes, there are.  
-On the local server there is installed a **SSH-Client** or -Agent that is executed every time a connection to a server is opened.
+On the local server there is a **SSH-Client** or -Agent installed that is executed every time a connection to a server is opened.
 If there are more than one host or identity you can register them in the config file.
 
 #### Procedure  
-1. Open the SSH-Client config file or create one if there is none  - on the local server, not on the VM.  
+1. Open the SSH-Client config file or create one if there is none  - on the local server, not on the VM!  
 > `sudo nano ~/.ssh/config`  
   
 2. Add the following information:  
 > `Host ip-address_vm`  
-> `  User user_vm`  
-> `  PrefferedAuthentications publickey`  
-> `  IdentitiFile ~/.ssh/id_ed25519`  
+> `     User user_vm`  
+> `     PreferredAuthentications publickey`  
+> `     IdentitiFile ~/.ssh/id_ed25519`  
   
-3. Connect to the VM.  
+3. Connect to the VM just with your IP-address.  
 > `ssh ip-address_vm`  
 Very nice, you are now logged in  
   
-4. Create an alias for that command in the **basrc**.
+4. Create an alias for that command in the **basrc** if you are too lazy to learn the IP-address by heart. No worries we all are...
 
 ## The Webserver - Nginx 
 Yesssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?  
