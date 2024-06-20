@@ -207,4 +207,6 @@ Excellent question! Yes, you can!
 > `sudo service nginx restart`  
   
 4. Open the IP-address of the VM in the browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help, bye!  
-[alternate nginx homepage](http://116.203.104.65/){:target="_blank"}
+[alternate nginx homepage](http://116.203.104.65/)  
+  
+<a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
