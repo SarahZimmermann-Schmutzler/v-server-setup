@@ -173,13 +173,13 @@ To get our own homepage we create the folder *alternatives* under the path:
 > `sudo mkdir /var/www/alternatives/alternate-index-html`  
   
 Maybe it looks like this:  
-BILD EINFÜGEN  
+![alternatuve_html](img/alternate_html.png)  
 3. There is an alternate index.html now and we want it to be loaded by Nginx. Create a Nginx config file for this purpose.  
 > `sudo nano /etc/nginx/sites-enabled/alternatives`  
 > `i: By default there is only the default config file that loads the current homepage: /etc/nginx/sites-enabled/default`  
   
 4. Create a server- and a location-block    
-BILD EINFÜGEN  
+![nginx_alternative_config](img/nginx_alternative_config.png)  
 Wait what?  
 > `i: server block: Regulates that incoming HTTP-Requests to our IP-address are handled by the Nginx web server.`  
 > `i: listen 8081: The web server now runs on IP-port 8081. The default port is 80 as you can see in the default config file.`  
@@ -199,7 +199,7 @@ Excellent question! Yes, you can!
 
 #### Procedure  
 1. Modify the default config file.  
-BILD EINFÜGEN  
+![nginx_default_config](img/nginx_default_config.png)  
 2. Test if it worked out.  
 > `sudo nginx -t`  
   
