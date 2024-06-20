@@ -103,7 +103,7 @@ Yeah, it worked out! But what happens if you close the git bash and start a new 
 > `sudo nano ~/.bash_profile`  
   
 7. Add the following if it's not already listed and save:  
-BILD EINFÜGEN  
+![bash_profile_config](img/bash_profile.png)  
   
 8. Reload the file.  
 > `source ~/.bash_profile`  
