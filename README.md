@@ -2,17 +2,17 @@
 sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and further definitions; Google Translate for translation
 
 ## Table of contents  
-* ![What exactly is a VM?] (#what-exactly-is-a-vm) 
-* ![The Login] (#the-login)
-    * ![Create a SSH-Key for your local server] (#create-a-ssh-key-for-your-local-server)
-    * ![Store the SSH-Key on your VM] (#store-the-ssh-key-on-your-vm)
-    * ![Deactivate the possebility to login with a password] (#deactivate-the-possibility-to-login-with-a-password)
-    * ![Alias the SSH connection] (#alias-the-ssh-connection)
-    * ![SSH config for several identities] (#ssh-config-for-several-identities)
-* ![The web server - Nginx] (#the-web-server-nginx)
-    * ![Install ans activate Nginx] (#install-and-activate-nginx)
-    * ![Configurate Nginx] (#configurate-nginx)
-* ![The Checklist] (#the-checklist)
+![What exactly is a VM?] (#what-exactly-is-a-vm) 
+![The Login] (#the-login)
+    ![Create a SSH-Key for your local server] (#create-a-ssh-key-for-your-local-server)
+    ![Store the SSH-Key on your VM] (#store-the-ssh-key-on-your-vm)
+    ![Deactivate the possebility to login with a password] (#deactivate-the-possibility-to-login-with-a-password)
+    ![Alias the SSH connection] (#alias-the-ssh-connection)
+    ![SSH config for several identities] (#ssh-config-for-several-identities)
+![The web server - Nginx] (#the-web-server-nginx)
+    ![Install ans activate Nginx] (#install-and-activate-nginx)
+    ![Configurate Nginx] (#configurate-nginx)
+![The Checklist] (#the-checklist)
 
 ## What exactly is a VM?  
 Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
