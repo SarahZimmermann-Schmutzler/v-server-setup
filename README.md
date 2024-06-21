@@ -6,13 +6,13 @@ sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and f
     * <a href="#what-exactly-is">The Login</a>  
     * <a href="#create-a-ssh-key-for-your-local-server">Create a SSH-Key for your local server</a>  
     * <a href="#store-the-ssh-key-on-your-vm">Store the SSH-Key on your VM</a>  
-    * <a href="#deactivate-the-possibility-to-login-with-a-password)">Deactivate the possibility to login with a password</a>  
-    * <a href="#alias-the-ssh-connection)">Alias the SSH connection</a>  
-    * <a href="#ssh-config-for-several-identities)">SSH config for several identities</a>  
-* <a href="#the-web-server-nginx)">The web server - Nginx</a>  
-    * <a href="#install-and-activate-nginx)">Install and activate Nginx</a>  
-    * <a href="#configurate-nginx)">Configurate Nginx</a>  
-* <a href="#the-checklist)">The Checklist</a>
+    * <a href="#deactivate-the-possibility-to-login-with-a-password">Deactivate the possibility to login with a password</a>  
+    * <a href="#alias-the-ssh-connection">Alias the SSH connection</a>  
+    * <a href="#ssh-config-for-several-identities">SSH config for several identities</a>  
+* <a href="#the-web-server-nginx">The web server - Nginx</a>  
+    * <a href="#install-and-activate-nginx">Install and activate Nginx</a>  
+    * <a href="#configurate-nginx">Configurate Nginx</a>  
+* <a href="#the-checklist">The Checklist</a>
 
 
 ## What exactly is a VM?  
