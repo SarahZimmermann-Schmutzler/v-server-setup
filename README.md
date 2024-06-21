@@ -184,7 +184,7 @@ To get our own homepage we create the folder *alternatives* under the path:
 > `sudo mkdir /var/www/alternatives`  
   
 2. And add an alternate index.html.  
-> `sudo mkdir /var/www/alternatives/alternate-index-html`  
+> `sudo mkdir /var/www/alternatives/alternate-index.html`  
   
 Maybe it looks like this:  
 ![alternatuve_html](img/alternate_html.png)  
