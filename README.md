@@ -1,6 +1,8 @@
 # HOW TO SET UP A VM  
 sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and further definitions; Google Translate for translation
 
+<iframe width="100%" height="800px" src="checkliste.pdf">
+
 ## What exactly is a VM?  
 Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
 bare-metal server and emulates it. A VM can run an operating system and applications as if they were running on real hardware.
