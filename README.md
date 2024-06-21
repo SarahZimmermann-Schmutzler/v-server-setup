@@ -211,5 +211,5 @@ Excellent question! Yes, you can!
 <a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
 
 ## The Checklist  
-![checklist_page_one](img/checklist_one.png) | ![checklist_two](img/checklist_two.png)  
+![checklist_page_one](img/check_one.png) | ![checklist_page_two](img/check_two.png)  
 <a href="https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/checkliste.pdf" target="_blank">Checklist</a>
