@@ -1,7 +1,6 @@
 # HOW TO SET UP A VM  
 sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and further definitions; Google Translate for translation
 
-<iframe width="100%" height="800px" src="checkliste.pdf" title="Checkliste"></iframe>
 
 ## What exactly is a VM?  
 Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
@@ -210,3 +209,7 @@ Excellent question! Yes, you can!
   
 4. Open the IP-address of the VM in the browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help, bye!  
 <a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
+
+## The Checklist  
+![checklist_page_one](img/checklist_one.png) | ![checklist_two](img/checklist_two.png)  
+<a href="https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/checkliste.pdf" target="_blank">Checklist</a>
