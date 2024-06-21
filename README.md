@@ -156,7 +156,7 @@ Very nice, you are now logged in
 4. Create an alias for that command in the **basrc** if you are too lazy to learn the IP-address by heart. No worries we all are...
 
 ## The web server - Nginx 
-``esssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?`  
+`Yesssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?`  
 The accessibility of the VM from the Internet depends heavily on the network configuration, particularly on how ports and services are configured.
 There are some reasons why you can't open the VM in the web browser. However we need a web server to do so.
 
