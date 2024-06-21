@@ -3,7 +3,7 @@ sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and f
 
 ## Table of contents  
 * <a href="#what-exactly-is-a-vm">What exactly is a VM?</a>  
-    * <a href="#what-exactly-is">The Login</a>  
+* <a href="#what-exactly-is">The Login</a>  
     * <a href="#create-a-ssh-key-for-your-local-server">Create a SSH-Key for your local server</a>  
     * <a href="#store-the-ssh-key-on-your-vm">Store the SSH-Key on your VM</a>  
     * <a href="#deactivate-the-possibility-to-login-with-a-password">Deactivate the possibility to login with a password</a>  
@@ -24,7 +24,7 @@ A software environment called Hypervisor creates and manages the VMs.
 
 ### Create a SSH-Key for your local server  
 SSH (Secure Shell) is a protocol that allows secure access to a remote computer over an insecure network.
-An SSH-Key (Secure Shell Key) is a cryptographic key pair used to authenticate SSH connections.SSH-Keys are more secure than password-based authentication because they use strong encryption. 
+An SSH-Key (Secure Shell Key) is a cryptographic key pair used to authenticate SSH connections. SSH-Keys are more secure than password-based authentication because they use strong encryption. 
 Once set up, you no longer have to enter a password to connect to the server. 
 They are also well suited for automated processes and scripts that need to access remote servers in a secure manner. 
 The SSH-Key pair consists of a private key and a public key.  
@@ -40,7 +40,7 @@ It is used to encrypt messages that can only be decrypted with the corresponding
 choose to use a password or not
 
 ### Store the SSH-Key on your VM  
-You can login to your VM without crating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
+You can login to your VM without creating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
 Why? Basically every password can be bruteforced.  
 > `i: A brute force attack is a method in which an attacker systematically tries all possible combinations of passwords to find the right combination and gain unauthorized access to a system or account.`  
   
@@ -64,24 +64,24 @@ What to do now?
 > `ssh user_vm@ip-address_vm`  
 enter your password  
   
-At best the vm environment has opened.  
+At best the VM environment has opened.  
   
-3. Add the SSH-Key to the file authorized_keys and save it.  
+3. Add the SSH-Key to the file *authorized_keys* and save it.  
 > `sudo nano ~/.ssh/authorized_keys`  
   
 After you logged out from your VM with `logout` or `exit`, you can now login with `ssh user_vm@ip-address_vm` and without password.
 
 ### Deactivate the possebility to login with a password  
-Now we want that NOBODY could login to our VM with a username password combination.
-We have to deactivate the PasswordAuthentication option in the sshd config file.
+Now we want that NOBODY could login to our VM with a username-password-combination.
+We have to deactivate the **PasswordAuthentication** option in the sshd config file.
 
 #### Procedure  
 1. Open the config file with an editor.  
 > `sudo nano /etc/ssh/sshd_config`  
   
-2. Activate the option `PasswordAuthentication` and change from `yes` to `no`.  
+2. Activate the option `PasswordAuthentication` and change it from `yes` to `no`.  
   
-3. Restart the ssh service.  
+3. Restart the SSH service.  
 > `sudo systemctl restart ssh.service`  
   
 4. How to proof that it worked out? We know that the login without password is activated and the SSH-Key connection is working. But we don't know if it is impossible to login with one. We can test ist with:  
@@ -90,7 +90,7 @@ If you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` t
 > `i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.`
 
 ### Alias the SSH connection  
-If you're thinking: `Oh no the command to login to my VM is soooo hard to remember!`, than there are good news. The savior is called **shell alias**.  
+If you're thinking: `Oh no, the command to login to my VM is soooo hard to remember!`, than there are good news. The savior is called **shell alias**.  
 A shell alias is an abbreviation or alternative name for a longer command or sequence of commands in the shell.
 Aliases help commonly used commands run more efficiently and quickly by associating them with shorter or easier-to-remember names.
 
@@ -156,12 +156,12 @@ Very nice, you are now logged in
 4. Create an alias for that command in the **basrc** if you are too lazy to learn the IP-address by heart. No worries we all are...
 
 ## The web server - Nginx 
-Yesssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?  
+``esssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?`  
 The accessibility of the VM from the Internet depends heavily on the network configuration, particularly on how ports and services are configured.
 There are some reasons why you can't open the VM in the web browser. However we need a web server to do so.
 
 
-### Intall and activate Nginx
+### Install and activate Nginx
 
 #### Procedure  
 1. Update the VM (you should do it regularly).  
@@ -188,7 +188,7 @@ To get our own homepage we create the folder *alternatives* under the path:
   
 Maybe it looks like this:  
 ![alternatuve_html](img/alternate_html.png)  
-3. There is an alternate index.html now and we want it to be loaded by Nginx. Create a Nginx config file for this purpose.  
+3. Now we want the alternate index to be loaded by Nginx. Create a Nginx config file for this purpose.  
 > `sudo nano /etc/nginx/sites-enabled/alternatives`  
 > `i: By default there is only the default config file that loads the current homepage: /etc/nginx/sites-enabled/default`  
   
@@ -203,7 +203,7 @@ Wait what?
 5. Restart Nginx to update the news.  
 > `sudo service nginx restart`  
   
-Is the alternate homepage is running on `http://ip-adress_vm`?  
+Is the alternate homepage running on `http://ip-adress_vm`?  
 Does the url: `http://ip-address_vm/abc` returns `404 Not Found`?  
 Then everything is as it should be. Congrats!
 
