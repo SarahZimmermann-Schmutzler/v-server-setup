@@ -12,7 +12,8 @@ sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and f
 * <a href="#the-web-server-nginx)">The web server - Nginx</a>  
     * <a href="#install-and-activate-nginx)">Install and activate Nginx</a>  
     * <a href="#configurate-nginx)">Configurate Nginx</a>  
-<a href="#the-checklist)">The Checklist</a>
+* <a href="#the-checklist)">The Checklist</a>
+
 
 ## What exactly is a VM?  
 Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
