@@ -2,18 +2,17 @@
 sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and further definitions; Google Translate for translation
 
 ## Table of contents  
-<a href="#what-exactly-is-a-vm">What exactly is a VM?</a> 
-![What exactly is a VM?] (#what-exactly-is-a-vm)  
-![The Login] (#the-login)  
-    ![Create a SSH-Key for your local server] (#create-a-ssh-key-for-your-local-server)
-    ![Store the SSH-Key on your VM] (#store-the-ssh-key-on-your-vm)
-    ![Deactivate the possebility to login with a password] (#deactivate-the-possibility-to-login-with-a-password)
-    ![Alias the SSH connection] (#alias-the-ssh-connection)
-    ![SSH config for several identities] (#ssh-config-for-several-identities)
-![The web server - Nginx] (#the-web-server-nginx)
-    ![Install ans activate Nginx] (#install-and-activate-nginx)
-    ![Configurate Nginx] (#configurate-nginx)
-![The Checklist] (#the-checklist)
+* <a href="#what-exactly-is-a-vm">What exactly is a VM?</a>  
+    * <a href="#what-exactly-is">The Login</a>  
+    * <a href="#create-a-ssh-key-for-your-local-server">Create a SSH-Key for your local server</a>  
+    * <a href="#store-the-ssh-key-on-your-vm">Store the SSH-Key on your VM</a>  
+    * <a href="#deactivate-the-possibility-to-login-with-a-password)">Deactivate the possibility to login with a password</a>  
+    * <a href="#alias-the-ssh-connection)">Alias the SSH connection</a>  
+    * <a href="#ssh-config-for-several-identities)">SSH config for several identities</a>  
+* <a href="#the-web-server-nginx)">The web server - Nginx</a>  
+    * <a href="#install-and-activate-nginx)">Install and activate Nginx</a>  
+    * <a href="#configurate-nginx)">Configurate Nginx</a>  
+<a href="#the-checklist)">The Checklist</a>
 
 ## What exactly is a VM?  
 Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
@@ -22,7 +21,7 @@ A software environment called Hypervisor creates and manages the VMs.
 
 ## The Login
 
-### Create a SSH-Key for your local Server  
+### Create a SSH-Key for your local server  
 SSH (Secure Shell) is a protocol that allows secure access to a remote computer over an insecure network.
 An SSH-Key (Secure Shell Key) is a cryptographic key pair used to authenticate SSH connections.SSH-Keys are more secure than password-based authentication because they use strong encryption. 
 Once set up, you no longer have to enter a password to connect to the server. 
