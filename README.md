@@ -1,6 +1,18 @@
 # HOW TO SET UP A VM  
 sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and further definitions; Google Translate for translation
 
+## Table of contents  
+* [What exactly is a VM?] (#what-exactly-is-a-vm) 
+* [The Login] (#the-login)
+    * [Create a SSH-Key for your local server] (#create-a-ssh-key-for-your-local-server)
+    * [Store the SSH-Key on your VM] (#store-the-ssh-key-on-your-vm)
+    * [Deactivate the possebility to login with a password] (#deactivate-the-possibility-to-login-with-a-password)
+    * [Alias the SSH connection] (#alias-the-ssh-connection)
+    * [SSH config for several identities] (#ssh-config-for-several-identities)
+* [The web server - Nginx] (#the-web-server-nginx)
+    * [Install ans activate Nginx] (#install-and-activate-nginx)
+    * [Configurate Nginx] (#configurate-nginx)
+* [The Checklist] (#the-checklist)
 
 ## What exactly is a VM?  
 Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
@@ -142,7 +154,7 @@ Very nice, you are now logged in
   
 4. Create an alias for that command in the **basrc** if you are too lazy to learn the IP-address by heart. No worries we all are...
 
-## The Webserver - Nginx 
+## The web server - Nginx 
 Yesssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?  
 The accessibility of the VM from the Internet depends heavily on the network configuration, particularly on how ports and services are configured.
 There are some reasons why you can't open the VM in the web browser. However we need a web server to do so.
@@ -211,5 +223,8 @@ Excellent question! Yes, you can!
 <a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
 
 ## The Checklist  
-![checklist_page_one](img/check_one.png) | ![checklist_page_two](img/check_two.png)  
+![checklist_page_one](img/check_one.png)  
+  
+![checklist_page_two](img/check_two.png)  
+  
 <a href="https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/checkliste.pdf" target="_blank">Checklist</a>
