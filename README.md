@@ -1,8 +1,8 @@
 # HOW TO SET UP A VM  
 sources:  
-    * Developer Akademie (DevSecOps Masterclass)  
-    * ChatGPT for debugging and further definitions  
-    * Google Translate for translation  
+* Developer Akademie (DevSecOps Masterclass)  
+* ChatGPT for debugging and further definitions  
+* Google Translate for translation  
 
 ## Table of contents  
 * <a href="#what-exactly-is-a-vm">What exactly is a VM?</a>  
