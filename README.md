@@ -75,8 +75,6 @@ ssh user_vm@ip-address_vm
 --> enter your password
 ```
   
-At best the VM environment has opened.  
-  
 3. Add the SSH-Key to the file *authorized_keys* and save it.  
 ```console
 sudo nano ~/.ssh/authorized_keys
@@ -90,15 +88,21 @@ We have to deactivate the **PasswordAuthentication** option in the sshd config f
 
 #### Procedure  
 1. Open the config file with an editor.  
-> `sudo nano /etc/ssh/sshd_config`  
+```console
+sudo nano /etc/ssh/sshd_config
+```
   
 2. Activate the option `PasswordAuthentication` and change it from `yes` to `no`.  
   
 3. Restart the SSH service.  
-> `sudo systemctl restart ssh.service`  
+```console
+sudo systemctl restart ssh.service
+```
   
 4. How to proof that it worked out? We know that the login without password is activated and the SSH-Key connection is working. But we don't know if it is impossible to login with one. We can test ist with:  
-> `ssh -o PubkeyAuthentication=no user_vm@ip-address_vm`  
+```console
+ssh -o PubkeyAuthentication=no user_vm@ip-address_vm
+```
 If you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` then it worked out.  
 > `i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.`
 
@@ -109,27 +113,43 @@ Aliases help commonly used commands run more efficiently and quickly by associat
 
 #### Procedure  
 1. Have a look at the manual of the alias programm.  
-> `man alias`  
-Dädum. If you're working with the **Git Bash** for Windows there is no `man-command`. Go on with second.  
+```console
+man alias
+```
+Dädum. If you're working with the **Git Bash** for Windows there is no `man-command`. No problem, just go on with second.  
   
 2. Define the alias.  
-> `alias vm_connection="ssh user_vm@ip-address_vm"`  
+```console
+alias vm_connection="ssh user_vm@ip-address_vm"
+```
   
 3. Did it worked out?  
-> `alias | grep vm_connection`  
+```console
+alias | grep vm_connection
+```
   
 4. Logout from your VM with `logout` or `exit`.  
   
 5. Login to your VM with your alias.  
-> `vm_connection`  
+```console
+vm_connection
+```
   
 Yeah, it worked out! But what happens if you close the git bash and start a new session? `Command not found.` Wait, what, why???  
 > `i: By default, aliases are only available for the duration of the current shell session. To make them persistent, you need to define them in one of your shell configuration files.`  
   
 6. Open or create the **bash_profile** script that runs whenever you start a new shell session.  
-> `sudo nano ~/.bash_profile`  
+```console
+sudo nano ~/.bash_profile
+```
   
 7. Add the following if it's not already listed and save:  
+```python
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+```
+
 ![bash_profile_config](img/bash_profile.png)  
   
 8. Reload the file.  
