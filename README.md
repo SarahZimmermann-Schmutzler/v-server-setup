@@ -1,5 +1,8 @@
 # HOW TO SET UP A VM  
-sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and further definitions; Google Translate for translation
+sources:  
+    * Developer Akademie (DevSecOps Masterclass)
+    * ChatGPT for debugging and further definitions
+    * Google Translate for translation
 
 ## Table of contents  
 * <a href="#what-exactly-is-a-vm">What exactly is a VM?</a>  
@@ -16,15 +19,15 @@ sources: Developer Akademie (DevSecOps Masterclass); ChatGPT for debugging and f
 
 
 ## What exactly is a VM?  
-Long story short - A VM, Virtual Machine or Virtual Server is a software program that runs on a 
+Long story short - A **VM**, **Virtual Machine** or **Virtual Server** is a software program that runs on a 
 bare-metal server and emulates it. A VM can run an operating system and applications as if they were running on real hardware.
 A software environment called Hypervisor creates and manages the VMs.
 
 ## The Login
 
 ### Create a SSH-Key for your local server  
-SSH (Secure Shell) is a protocol that allows secure access to a remote computer over an insecure network.
-An SSH-Key (Secure Shell Key) is a cryptographic key pair used to authenticate SSH connections. SSH-Keys are more secure than password-based authentication because they use strong encryption. 
+**SSH (Secure Shell)** is a protocol that allows secure access to a remote computer over an insecure network.
+An **SSH-Key (Secure Shell Key)** is a cryptographic key pair used to authenticate SSH connections. SSH-Keys are more secure than password-based authentication because they use strong encryption. 
 Once set up, you no longer have to enter a password to connect to the server. 
 They are also well suited for automated processes and scripts that need to access remote servers in a secure manner. 
 The SSH-Key pair consists of a private key and a public key.  
