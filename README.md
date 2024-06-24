@@ -60,7 +60,7 @@ ERROR: failed to open ID file: No such file or directory.
 ```
   
 But why though? Honestly I don't know.  
-> `i: Note from the future: Maybe the problem were the wrong question marks. I prewrote the command in MSWord and ChatGPT told me, that they are graphic question marks then. So don't do that.`  
+> i: Note from the future: Maybe the problem were the wrong question marks. I prewrote the command in MSWord and ChatGPT told me, that they are graphic question marks then. So don't do that.  
 
 
 #### What to do now?
@@ -104,7 +104,7 @@ sudo systemctl restart ssh.service
 ssh -o PubkeyAuthentication=no user_vm@ip-address_vm
 ```
 If you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` then it worked out.  
-> `i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.`
+> i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.
 
 ### Alias the SSH connection  
 If you're thinking: `Oh no, the command to login to my VM is soooo hard to remember!`, than there are good news. The savior is called **shell alias**.  
@@ -137,7 +137,7 @@ vm_connection
 ```
   
 Yeah, it worked out! But what happens if you close the git bash and start a new session? `Command not found.` Wait, what, why???  
-> `i: By default, aliases are only available for the duration of the current shell session. To make them persistent, you need to define them in one of your shell configuration files.`  
+> i: By default, aliases are only available for the duration of the current shell session. To make them persistent, you need to define them in one of your shell configuration files.  
   
 6. Open or create the **bash_profile** script that runs whenever you start a new shell session.  
 ```console
@@ -219,7 +219,7 @@ sudo apt update
 ```console
 sudo apt install nginx -y
 ```
-> `i: Why -y? Y stands for yes. The answer of the question the command line would ask you instead in the next step: Are you sure you want to install Nginx?`  
+> i: Why -y? Y stands for yes. The answer of the question the command line would ask you instead in the next step: Are you sure you want to install Nginx?  
   
 3. Check the status of Nginx.  
 ```console
@@ -262,7 +262,7 @@ Maybe it looks like this:
 ```console
 sudo nano /etc/nginx/sites-enabled/alternatives
 ```
-> `i: By default there is only the default config file that loads the current homepage: /etc/nginx/sites-enabled/default`  
+> i: By default there is only the default config file that loads the current homepage: /etc/nginx/sites-enabled/default  
   
 4. Create a server- and a location-block    
 ```nginx
@@ -279,10 +279,13 @@ server {
 }
 ```
 Wait what?  
-> `i: server block: Regulates that incoming HTTP-Requests to our IP-address are handled by the Nginx web server.`  
-> `i: listen 8081: The web server now runs on IP-port 8081. The default port is 80 as you can see in the default config file.`  
-> `i: root and index: Where is the root or where should Nginx look for the home page? The starting point for the web server should be the index alternate-index.html.`  
-> `i: location block: Takes care of the paths that come after http://IP-address/.`  
+> i: server block: Regulates that incoming HTTP-Requests to our IP-address are handled by the Nginx web server.  
+  
+> i: listen 8081: The web server now runs on IP-port 8081. The default port is 80 as you can see in the default config file.  
+  
+> i: root and index: Where is the root or where should Nginx look for the home page? The starting point for the web server should be the index alternate-index.html.  
+  
+> i: location block: Takes care of the paths that come after http://IP-address/.  
   
 5. Restart Nginx to update the news.  
 ```console
