@@ -149,20 +149,26 @@ if [ -f ~/.bashrc ]; then
         . ~/.bashrc
 fi
 ```
-
-![bash_profile_config](img/bash_profile.png)  
   
 8. Reload the file.  
-> `source ~/.bash_profile`  
+```console
+source ~/.bash_profile
+```
   
 9. Open or create the **bashrc** - the config file for the bash which is, thanks to the bash_profile script, executed every time a terminal is opened.  
-> `sudo nano ~/.bashrc`  
+```console
+sudo nano ~/.bashrc
+```
   
 10. Add your alias to the document and save it.  
-> `alias vm_connection="ssh user_vm@ip-address_vm"`  
+```console
+alias vm_connection="ssh user_vm@ip-address_vm"
+```
   
 11. Reload the file.  
-> `source ~/.bashrc`  
+```console
+source ~/.bashrc
+```
   
 12. Close the bash, open a new one and try your alias.  
 Congrats! You can now login to your VM with a short and concise command.
@@ -174,17 +180,23 @@ If there are more than one host or identity you can register them in the config 
 
 #### Procedure  
 1. Open the SSH-Client config file or create one if there is none  - on the local server, not on the VM!  
-> `sudo nano ~/.ssh/config`  
+```console
+sudo nano ~/.ssh/config
+```
   
 2. Add the following information:  
-> `Host ip-address_vm`  
-> `     User user_vm`  
-> `     PreferredAuthentications publickey`  
-> `     IdentitiFile ~/.ssh/id_ed25519`  
+```nginx
+Host ip-address_vm
+     User user_vm
+     PreferredAuthentications publickey
+     IdentityFile ~/.ssh/id_ed25519
+```
   
 3. Connect to the VM just with your IP-address.  
-> `ssh ip-address_vm`  
-Very nice, you are now logged in  
+```console
+ssh ip-address_vm
+--> Very nice, you are logged in now.
+```
   
 4. Create an alias for that command in the **basrc** if you are too lazy to learn the IP-address by heart. No worries we all are...
 
@@ -198,15 +210,21 @@ There are some reasons why you can't open the VM in the web browser. However we 
 
 #### Procedure  
 1. Update the VM (you should do it regularly).  
-> `sudo apt update`  
+```console
+sudo apt update
+```
   
 2. Install Nginx.  
-> `sudo apt install nginx -y`  
+```console
+sudo apt install nginx -y
+```
 > `i: Why -y? Y stands for yes. The answer of the question the command line would ask you instead in the next step: Are you sure you want to install Nginx?`  
   
 3. Check the status of Nginx.  
-> `systemctl status nginx`  
-uhhh, it's already active!
+```console
+systemctl status nginx
+--> Uhhh, it's already active!
+```
 
 ### Configurate Nginx  
 If we now browse our IP-address we are welcomed by the Nginx homepage. But we would like to be welcomed by our own homepage, don't we?
@@ -214,19 +232,51 @@ If we now browse our IP-address we are welcomed by the Nginx homepage. But we wo
 #### Procedure  
 1. The default homepage is stored under `/var/www/html/index.nginx-debian.html`.  
 To get our own homepage we create the folder *alternatives* under the path:  
-> `sudo mkdir /var/www/alternatives`  
+```console
+sudo mkdir /var/www/alternatives
+```
   
 2. And add an alternate index.html.  
-> `sudo mkdir /var/www/alternatives/alternate-index.html`  
+```console
+sudo mkdir /var/www/alternatives/alternate-index.html
+```
   
 Maybe it looks like this:  
-![alternatuve_html](img/alternate_html.png)  
+```html
+<!doctype html>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<title>Hello, Nginx!</title>
+  </head>
+
+  <body>
+	<h1>Hello, I am an alternative Homepage for Nginx</h1>
+	<p>Noice to see ya :)</p>
+	<p>You can meet me at IP-address: 116.203.104.65</p>
+  </body>
+</html>
+```
 3. Now we want the alternate index to be loaded by Nginx. Create a Nginx config file for this purpose.  
-> `sudo nano /etc/nginx/sites-enabled/alternatives`  
+```console
+sudo nano /etc/nginx/sites-enabled/alternatives
+```
 > `i: By default there is only the default config file that loads the current homepage: /etc/nginx/sites-enabled/default`  
   
 4. Create a server- and a location-block    
-![nginx_alternative_config](img/nginx_alternative_config.png)  
+```nginx
+server {
+	listen 8081;
+	listen [::]: 8081;
+
+	root /var/www/alternatives;
+	index alternate-index.html
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}
+```
 Wait what?  
 > `i: server block: Regulates that incoming HTTP-Requests to our IP-address are handled by the Nginx web server.`  
 > `i: listen 8081: The web server now runs on IP-port 8081. The default port is 80 as you can see in the default config file.`  
@@ -234,7 +284,9 @@ Wait what?
 > `i: location block: Takes care of the paths that come after http://IP-address/.`  
   
 5. Restart Nginx to update the news.  
-> `sudo service nginx restart`  
+```console
+sudo service nginx restart
+```
   
 Is the alternate homepage running on `http://ip-adress_vm`?  
 Does the url: `http://ip-address_vm/abc` returns `404 Not Found`?  
@@ -246,12 +298,32 @@ Excellent question! Yes, you can!
 
 #### Procedure  
 1. Modify the default config file.  
-![nginx_default_config](img/nginx_default_config.png)  
+```nginx
+server {
+        listen 80 default_server;
+        listen [::]: 80 default_server;
+
+        server_name _;
+
+	#forwarding to port 8081 (alternatives)
+        location / {
+                proxy_pass http://localhoast:8081;
+		proxy_set_header Host $host;
+        	proxy_set_header X-Real-IP $remote_addr;
+        	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        	proxy_set_header X-Forwarded-Proto $scheme;
+        }
+}
+```
 2. Test if it worked out.  
-> `sudo nginx -t`  
+```console
+sudo nginx -t
+```
   
 3. If the Test was successful, restart Nginx.  
-> `sudo service nginx restart`  
+```console
+sudo service nginx restart
+```
   
 4. Open the IP-address of the VM in the browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help, bye!  
 <a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
