@@ -115,8 +115,8 @@ Aliases help commonly used commands run more efficiently and quickly by associat
 1. Have a look at the manual of the alias programm.  
 ```console
 man alias
+--> Dädum. If you're working with the **Git Bash** for Windows there is no `man-command`. No problem, just go on with second.
 ```
-Dädum. If you're working with the **Git Bash** for Windows there is no `man-command`. No problem, just go on with second.  
   
 2. Define the alias.  
 ```console
@@ -144,7 +144,7 @@ sudo nano ~/.bash_profile
 ```
   
 7. Add the following if it's not already listed and save:  
-```python
+```bash
 if [ -f ~/.bashrc ]; then
         . ~/.bashrc
 fi
