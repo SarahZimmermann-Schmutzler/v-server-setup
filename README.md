@@ -36,6 +36,10 @@ It is used to encrypt messages that can only be decrypted with the corresponding
 1. Open the program **Git Bash** as admin.  
   
 2. Create a ED25519 SSH-Key pair (more secure than RSA SSH-Key pair).  
+```console
+`ssh-keygen -t ed25519
+```
+
 >`ssh-keygen -t ed25519`  
 choose to use a password or not
 
@@ -228,4 +232,4 @@ Excellent question! Yes, you can!
   
 ![checklist_page_two](img/check_two.png)  
   
-<a href="https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/checkliste.pdf" target="_blank">Checklist</a>
+<a href="https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/checklist_filled_out.pdf" target="_blank">Checklist</a>
