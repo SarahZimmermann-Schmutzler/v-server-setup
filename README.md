@@ -37,11 +37,9 @@ It is used to encrypt messages that can only be decrypted with the corresponding
   
 2. Create a ED25519 SSH-Key pair (more secure than RSA SSH-Key pair).  
 ```console
-`ssh-keygen -t ed25519
+ssh-keygen -t ed25519  
+--> choose to use a password or not
 ```
-
->`ssh-keygen -t ed25519`  
-choose to use a password or not
 
 ### Store the SSH-Key on your VM  
 You can login to your VM without creating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
@@ -52,26 +50,37 @@ That's why we want to store the SSH-Key on the VM so that we can login with it i
 
 #### Procedure  
 1. Copy your public SSH-Key.  
-> `ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm`  
+```console
+ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm
+```
   
 At best the public SSH-Key is now stored in `~/.ssh/authorized_keys` - or not...  
-> `ERROR: failed to open ID file: No such file or directory.`  
+```console
+ERROR: failed to open ID file: No such file or directory.
+```
   
 But why though? Honestly I don't know.  
 > `i: Note from the future: Maybe the problem were the wrong question marks. I prewrote the command in MSWord and ChatGPT told me, that they are graphic question marks then. So don't do that.`  
-  
-What to do now?
+
+
+#### What to do now?
 1. Copy the public SSH-Key manually after displaying it:  
-> `cat ~/.ssh/id_ed25519.pub`  
+```console
+cat ~/.ssh/id_ed25519.pub
+```
   
 2. Login to your VM.  
-> `ssh user_vm@ip-address_vm`  
-enter your password  
+```console
+ssh user_vm@ip-address_vm  
+--> enter your password
+```
   
 At best the VM environment has opened.  
   
 3. Add the SSH-Key to the file *authorized_keys* and save it.  
-> `sudo nano ~/.ssh/authorized_keys`  
+```console
+sudo nano ~/.ssh/authorized_keys
+```
   
 After you logged out from your VM with `logout` or `exit`, you can now login with `ssh user_vm@ip-address_vm` and without password.
 
