@@ -1,96 +1,108 @@
 # HOW TO SET UP A VM  
-sources:  
-* Developer Akademie (DevSecOps Masterclass)  
-* ChatGPT for debugging and further definitions  
-* Google Translate for translation  
 
-## Table of contents  
-* <a href="#what-exactly-is-a-vm">What exactly is a VM?</a>  
-* <a href="#what-exactly-is">The Login</a>  
-    * <a href="#create-a-ssh-key-for-your-local-server">Create a SSH-Key for your local server</a>  
-    * <a href="#store-the-ssh-key-on-your-vm">Store the SSH-Key on your VM</a>  
-    * <a href="#deactivate-the-possibility-to-login-with-a-password">Deactivate the possibility to login with a password</a>  
-    * <a href="#alias-the-ssh-connection">Alias the SSH connection</a>  
-    * <a href="#ssh-config-for-several-identities">SSH config for several identities</a>  
-* <a href="#the-web-server-nginx">The web server - Nginx</a>  
-    * <a href="#install-and-activate-nginx">Install and activate Nginx</a>  
-    * <a href="#configurate-nginx">Configurate Nginx</a>  
-* <a href="#the-checklist">The Checklist</a>
+This guide was created as part of my **DevSecOps training** at the Developer Academy.  
 
+## Table of Contents
 
-## What exactly is a VM?  
-Long story short - A **VM**, **Virtual Machine** or **Virtual Server** is a software program that runs on a 
-bare-metal server and emulates it. A VM can run an operating system and applications as if they were running on real hardware.
-A software environment called Hypervisor creates and manages the VMs.
+1. [What exactly is a VM?](#what-exactly-is-a-vm)
+1. [The Login](#the-login)
+   * [Create a SSH-Key for your local server](#create-a-ssh-key-for-your-local-server)
+   * [Store the SSH-Key on your VM](#store-the-ssh-key-on-your-vm)
+   * [Deactivate the possibility to login with a password](#deactivate-the-possebility-to-login-with-a-password)
+   * [Alias the SSH connection](#alias-the-ssh-connection)
+   * [SSH config for several identities](#ssh-config-for-several-identities)
+1. [The web server - Nginx](#the-web-server---nginx)
+   * [Install and activate Nginx](#install-and-activate-nginx)
+   * [Configurate Nginx](#configurate-nginx)
+
+## What exactly is a VM?
+
+A **VM**, **Virtual Machine** or **Virtual Server** is a software program that runs on a bare-metal server and emulates it.
+
+* It can run an **operating system and applications** as if they were running on real hardware.  
+* A software environment called **Hypervisor** creates and manages the VMs.
 
 ## The Login
 
-### Create a SSH-Key for your local server  
+### Create a SSH-Key for your local server
+
 **SSH (Secure Shell)** is a protocol that allows secure access to a remote computer over an insecure network.
-An **SSH-Key (Secure Shell Key)** is a cryptographic key pair used to authenticate SSH connections. SSH-Keys are more secure than password-based authentication because they use strong encryption. 
-Once set up, you no longer have to enter a password to connect to the server. 
-They are also well suited for automated processes and scripts that need to access remote servers in a secure manner. 
-The SSH-Key pair consists of a private key and a public key.  
-The **private key** should be kept secure and secret. It is saved on the client (your computer) and is used to authenticate to a server.  
-The **public key** can be passed on without hesitation or stored on the server you want to log in to. 
-It is used to encrypt messages that can only be decrypted with the corresponding private key.
 
-#### Procedure  
-1. Open the program **Git Bash** as admin.  
-  
-2. Create a ED25519 SSH-Key pair (more secure than RSA SSH-Key pair).  
-```console
-ssh-keygen -t ed25519  
---> choose to use a password or not
-```
+* An **SSH-Key (Secure Shell Key)** is a cryptographic key pair used to authenticate SSH connections SSH-Keys are more secure than password-based authentication because they use strong encryption.
+  * Once set up, you no longer have to enter a password to connect to the server. 
+  * They are also well suited for automated processes and scripts that need to access remote servers in a secure manner.
 
-### Store the SSH-Key on your VM  
-You can login to your VM without creating a SSH-Key. But then you always need the password and that is laborious and insecure (by the way).
-Why? Basically every password can be bruteforced.  
-> i: A brute force attack is a method in which an attacker systematically tries all possible combinations of passwords to find the right combination and gain unauthorized access to a system or account.  
-  
-That's why we want to store the SSH-Key on the VM so that we can login with it instead of a password.
+* It consists of a **private key and a public key**.  
+  * The **private key** should be kept secure and secret. It is saved on the client (your computer) and is used to authenticate to a server.  
+  * The **public key** can be passed on without hesitation or stored on the server you want to log in to. It is used to encrypt messages that can only be decrypted with the corresponding private key.
 
-#### Procedure  
-1. Copy your public SSH-Key.  
-```console
-ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm
-```
+1. Open the program **Git Bash** as admin on your local platform, e.g. Windows.  
   
-At best the public SSH-Key is now stored in `~/.ssh/authorized_keys` - or not...  
-```console
-ERROR: failed to open ID file: No such file or directory.
-```
-  
-But why though? Honestly I don't know.  
-> i: Note from the future: Maybe the problem were the wrong question marks. I prewrote the command in MSWord and ChatGPT told me, that they are graphic question marks then. So don't do that.  
+1. Create a **ED25519 SSH-Key pair** (more secure than RSA SSH-Key pair):
 
+        ```bash
+        ssh-keygen -t ed25519  
+        # choose to use a password or not
+        ```
 
-#### What to do now?
-1. Copy the public SSH-Key manually after displaying it:  
-```console
-cat ~/.ssh/id_ed25519.pub
-```
-  
-2. Login to your VM.  
-```console
-ssh user_vm@ip-address_vm  
---> enter your password
-```
-  
-3. Add the SSH-Key to the file *authorized_keys* and save it.  
-```console
-sudo nano ~/.ssh/authorized_keys
-```
-  
-After you logged out from your VM with `logout` or `exit`, you can now login with `ssh user_vm@ip-address_vm` and without password.
+> [!NOTE]
+> It's possible to use the same key for different VMs. If the key is compromised, all connected VMs are affected. It's also possible to generate a separate key pair for each VM, which can then be managed via `~/.ssh/config` for convenience.
 
-### Deactivate the possebility to login with a password  
-Now we want that NOBODY could login to our VM with a username-password-combination.
-We have to deactivate the **PasswordAuthentication** option in the sshd config file.
+### Store the SSH-Key on your VM
 
-#### Procedure  
-1. Open the config file with an editor.  
+**Logging into a VM** doesn't require a connection via an SSH key. You can connect **using a username and password combination**. This approach presents a **security vulnerability**, as any password can potentially be brute-forced.
+  
+Therefore, it is recommended to **store the SSH-Key on the VM** so that you can login with it instead of a password.
+
+1. **Copy and transfer** your public SSH-Key on the VM:
+
+        ```bash
+        ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm
+        ```
+  
+* The public SSH-Key is **now stored** in `~/.ssh/authorized_keys`
+
+#### **If this fails**
+
+* The SSH-key can also be copied and added manually to the VM:
+  * **Copy** SSH-Key:
+
+        ```bash
+        cat ~/.ssh/id_ed25519.pub
+        ```
+  * **Log in** to the VM **with username and password** combination:
+
+        ```bash
+        ssh user_vm@123.456.7.89
+        ```
+  * On a freshly installed VM, there is usually no `authorized_keys` file, and often there is no `.ssh/` directory in the home folder - create them:
+
+        ```bash
+        mkdir -p ~/.ssh
+        chmod 700 ~/.ssh
+        nano ~/.ssh/authorized_keys
+        ```
+  * Paste the copied public key into a new line:
+
+        ```bash
+        chmod 600 ~/.ssh/authorized_keys
+        ```
+
+2. After you logged out from your VM with `logout` or `exit`, you can now **log in** with the usual `ssh user_vm@ip-address_vm` but **without password query**.
+
+> [!CAUTION]
+> **Make sure your SSH-Key access is working** before proceeding to the next step!
+
+### Deactivate the possebility to login with a password
+
+Even if you now log in using an SSH key, the **password login is still active** – and this is a potential **security risk**:
+
+* An attacker who does not have the SSH key can still log in using the username-password combination after guessing the password!
+
+To prevent that you have to **deactivate the `PasswordAuthentication` option** in the `sshd_config`.
+
+1. Open the config file with an editor.
+
 ```console
 sudo nano /etc/ssh/sshd_config
 ```
