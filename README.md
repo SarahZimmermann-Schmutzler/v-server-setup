@@ -9,10 +9,11 @@ This guide was created as part of my **DevSecOps training** at the Developer Aca
    * [Create a SSH-Key for your local server](#create-a-ssh-key-for-your-local-server)
    * [Store the SSH-Key on your VM](#store-the-ssh-key-on-your-vm)
    * [Deactivate the possibility to login with a password](#deactivate-the-possebility-to-login-with-a-password)
-   * [Alias the SSH connection](#alias-the-ssh-connection)
-   * [SSH config for several identities](#ssh-config-for-several-identities)
-1. [The web server - Nginx](#the-web-server---nginx)
-   * [Install and activate Nginx](#install-and-activate-nginx)
+   * [Simplify Connection Setup](#simplify-connection-setup)
+     * [Alias the SSH connection](#alias-the-ssh-connection)
+     * [SSH config for several identities](#ssh-config-for-several-identities)
+1. [The Web Server - Nginx](#the-web-server---nginx)
+   * [Install and Activate Nginx](#install-and-activate-nginx)
    * [Configurate Nginx](#configurate-nginx)
 
 ## What exactly is a VM?
@@ -50,7 +51,7 @@ A **VM**, **Virtual Machine** or **Virtual Server** is a software program that r
 
 ### Store the SSH-Key on your VM
 
-**Logging into a VM** doesn't require a connection via an SSH key. You can connect **using a username and password combination**. This approach presents a **security vulnerability**, as any password can potentially be brute-forced.
+**Logging into a VM** doesn't require a connection via an SSH-Key. You can connect **using a username and password combination**. This approach presents a **security vulnerability**, as any password can potentially be brute-forced.
   
 Therefore, it is recommended to **store the SSH-Key on the VM** so that you can login with it instead of a password.
 
@@ -74,10 +75,10 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
   * **Log in** to the VM **with username and password** combination:
 
     ```bash
-    ssh user_vm@123.456.7.89
+    ssh user_vm@ip-address_vm
     ```
 
-  * On a freshly installed VM, there is usually no `authorized_keys` file, and often there is no `.ssh/` directory in the home folder - create them:
+  * On a freshly installed VM, there is usually no `authorized_keys` file, and often there is no `.ssh/` directory in the home folder - **create** them:
 
     ```bash
     mkdir -p ~/.ssh
@@ -85,7 +86,7 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
     nano ~/.ssh/authorized_keys
     ```
 
-  * Paste the copied public key into a new line:
+  * **Paste the copied public key** into a new line:
 
     ```bash
     chmod 600 ~/.ssh/authorized_keys
@@ -98,157 +99,158 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
 
 ### Deactivate the possebility to login with a password
 
-Even if you now log in using an SSH key, the **password login is still active** – and this is a potential **security risk**:
+Even if you now log in using an SSH-key, the **password login is still active** – and this is a potential **security risk**:
 
-* An attacker who does not have the SSH key can still log in using the username-password combination after guessing the password!
+* If no SSH-Key is found when attempting an SSH connection, you will automatically be asked for the password. An attacker can therefore log in using the username-password combination after guessing it!
 
-To prevent that you have to **deactivate the `PasswordAuthentication` option** in the `sshd_config`.
+To prevent that you have to **deactivate the `PasswordAuthentication` option** in the VM's `sshd_config`.
 
-1. Open the config file with an editor.
+1. **Open the `sshd_config` file** with an editor:
 
-```console
-sudo nano /etc/ssh/sshd_config
-```
+    ```bash
+    sudo nano /etc/ssh/sshd_config
+    ```
   
-2. Activate the option `PasswordAuthentication` and change it from `yes` to `no`.  
+1. **Activate** the option **`PasswordAuthentication`** (remove `#`) and change it from `yes` to **`no`**.  
   
-3. Restart the SSH service.  
-```console
-sudo systemctl restart ssh.service
-```
-  
-4. How to proof that it worked out? We know that the login without password is activated and the SSH-Key connection is working. But we don't know if it is impossible to login with one. We can test ist with:  
-```console
-ssh -o PubkeyAuthentication=no user_vm@ip-address_vm
-```
-If you get the information `user_vm@ip-address_vm: Permission denied (pubkey)` then it worked out.  
-> i: The command explicitly disables public key authentication and attempts to use password authentication instead. However, if the server is configured to only accept public keys, authentication will fail.
+1. **Restart the SSH-Service**.  
 
-### Alias the SSH connection  
-If you're thinking: `Oh no, the command to login to my VM is soooo hard to remember!`, than there are good news. The savior is called **shell alias**.  
-A shell alias is an abbreviation or alternative name for a longer command or sequence of commands in the shell.
-Aliases help commonly used commands run more efficiently and quickly by associating them with shorter or easier-to-remember names.
+    ```bash
+    sudo systemctl restart ssh.service
+    ```
 
-#### Procedure  
-1. Have a look at the manual of the alias programm.  
-```console
-man alias
---> Dädum. If you're working with the **Git Bash** for Windows there is no `man-command`.
---> No problem, just go on with second.
-```
-  
-2. Define the alias.  
-```console
-alias vm_connection="ssh user_vm@ip-address_vm"
-```
-  
-3. Did it worked out?  
-```console
-alias | grep vm_connection
-```
-  
-4. Logout from your VM with `logout` or `exit`.  
-  
-5. Login to your VM with your alias.  
-```console
-vm_connection
-```
-  
-Yeah, it worked out! But what happens if you close the git bash and start a new session? `Command not found.` Wait, what, why???  
-> i: By default, aliases are only available for the duration of the current shell session. To make them persistent, you need to define them in one of your shell configuration files.  
-  
-6. Open or create the **bash_profile** script that runs whenever you start a new shell session.  
-```console
-sudo nano ~/.bash_profile
-```
-  
-7. Add the following if it's not already listed and save:  
-```bash
-if [ -f ~/.bashrc ]; then
-        . ~/.bashrc
-fi
-```
-  
-8. Reload the file.  
-```console
-source ~/.bash_profile
-```
-  
-9. Open or create the **bashrc** - the config file for the bash which is, thanks to the bash_profile script, executed every time a terminal is opened.  
-```console
-sudo nano ~/.bashrc
-```
-  
-10. Add your alias to the document and save it.  
-```console
-alias vm_connection="ssh user_vm@ip-address_vm"
-```
-  
-11. Reload the file.  
-```console
-source ~/.bashrc
-```
-  
-12. Close the bash, open a new one and try your alias.  
-Congrats! You can now login to your VM with a short and concise command.
+1. **Check** if the password authentication was **successfully issued**:
 
-### SSH config for several identities  
-Are there any other ways to simplify establishing a connection to the VM? Yes, there are.  
-On the local server there is a **SSH-Client** or -Agent installed that is executed every time a connection to a server is opened.
-If there are more than one host or identity you can register them in the config file.
+* **Log out of the VM**:
 
-#### Procedure  
-1. Open the SSH-Client config file or create one if there is none  - on the local server, not on the VM!  
-```console
-sudo nano ~/.ssh/config
-```
+    ```bash
+    logout
+    ```
+
+* Try to **log in with password authetication by explicitly disabling public key authentication**:  
+
+    ```bash
+    ssh -o PubkeyAuthentication=no user_vm@ip-address_vm
+    ```
+
+* You should get the information:  
+`user_vm@ip-address_vm: Permission denied (pubkey)`
+
+### Simplify Connection Setup
+
+The command for *establishing an SSH connection** can be quite cumbersome. This can be **remedied** by using a `shell alias` or registering the host in the `config file`.
+
+#### Alias the SSH connection
+
+A **shell alias** is an abbreviation or alternative name for a longer command or sequence of commands in the shell. They help commonly used commands run more efficiently and quickly by associating them with shorter or easier-to-remember names.  
   
-2. Add the following information:  
-```nginx
-Host ip-address_vm
-     User user_vm
-     PreferredAuthentications publickey
-     IdentityFile ~/.ssh/id_ed25519
-```
+By default, aliases are only available for the duration of the current shell session. To make them **persistent**, you need to define them in one of your **shell configuration files** on your local server:
+
+1. **Open or create the `bash_profile` script** that runs whenever you start a new shell session:  
+
+    ```bash
+    nano ~/.bash_profile
+    ```
+
+1. **Add the following if it's not already listed** and save the file:  
+
+    ```bash
+    if [ -f ~/.bashrc ]; then
+            . ~/.bashrc
+    fi
+    ```
+
+* **Reload** the file:  
+
+    ```bash
+    source ~/.bash_profile
+    ```
   
-3. Connect to the VM just with your IP-address.  
-```console
-ssh ip-address_vm
---> Very nice, you are logged in now.
-```
+1. **Open or create the `bashrc`** - the config file for the bash which is, thanks to the bash_profile script, executed every time a terminal is opened:
+
+    ```bash
+    nano ~/.bashrc
+    ```
+
+1. Add your alias to the document and save it, e.g. vm_connection:
+
+    ```bash
+    alias vm_connection="ssh user_vm@ip-address_vm"
+    ```
   
-4. Create an alias for that command in the **basrc** if you are too lazy to learn the IP-address by heart. No worries we all are...
+1. **Reload** the file:  
 
-## The web server - Nginx 
-`Yesssss, I have a VM! Let's type the IP-address in the address bar of the browser and have a look what happens. Nothing?`  
-The accessibility of the VM from the Internet depends heavily on the network configuration, particularly on how ports and services are configured.
-There are some reasons why you can't open the VM in the web browser. However we need a web server to do so.
+    ```bash
+    source ~/.bashrc
+    ```
 
+1. After ending the current bash with `logout` or `exit`, **use the alias to log in to the VM**:
 
-### Install and activate Nginx
+    ```bash
+    vm_connection
+    ```
 
-#### Procedure  
-1. Update the VM (you should do it regularly).  
-```console
-sudo apt update
-```
+#### SSH config for several identities  
+
+On the local server there is a **SSH-Client** or **-Agent** installed that is executed every time a connection to a server is opened.
+You can **register hosts (VMs) or identities** in its configuration file - also with different SSH-Keys.
+
+1. Open the **SSH-Client `config` file** or create one if there is none
+
+    ```bash
+    nano ~/.ssh/config
+    ```
   
-2. Install Nginx.  
-```console
-sudo apt install nginx -y
-```
-> i: Why -y? Y stands for yes. The answer of the question the command line would ask you instead in the next step: Are you sure you want to install Nginx?  
+1. Add the **following information**:  
+
+    ```bash
+    Host vm1
+         HostName ip-address_vm
+         User user_vm
+         PreferredAuthentications publickey
+         IdentityFile ~/.ssh/id_ed25519
+    ```
   
-3. Check the status of Nginx.  
-```console
-systemctl status nginx
---> Uhhh, it's already active!
-```
+1. Connect to the VM just with the **defined host profile name**.  
 
-### Configurate Nginx  
-If we now browse our IP-address we are welcomed by the Nginx homepage. But we would like to be welcomed by our own homepage, don't we?
+    ```console
+    ssh vm1
+    ```
 
-#### Procedure  
+## The Web Server - Nginx
+
+If you enter your IP-address in the browser's address bar and press enter, nothing happens - the browser sends HTTP(S) requests to the VM, but no program receives and responds to them.
+
+To access the VM via the web browser, a **web server** like `Nginx` is required to process the requests:
+
+* It is fast and lightweight. It requires few resources, has built-in reverse proxy and load balancing, is easy to set up, and is simple to configure. It provides an optimal foundation for modern web projects.
+
+### Install and Activate Nginx
+
+1. Update and upgrade the VM like you should do regularly:
+
+    ```bash
+    sudo apt update && sudo apt upgrade
+    ```
+  
+1. **Install `Nginx`**:
+
+    ```bash
+    sudo apt install nginx -y
+    ```
+  
+1. Check if the **status** is `active`:
+
+    ```console
+    systemctl status nginx
+    ```
+
+### Configurate Nginx
+
+If you now browse the IP-address you are welcomed by the Nginx homepage.  
+  
+Here is the procedure if you want to be **greeted by your own homepage**:
+
 1. The default homepage is stored under `/var/www/html/index.nginx-debian.html`.  
 To get our own homepage we create the folder *alternatives* under the path:  
 ```console
@@ -349,10 +351,3 @@ sudo service nginx restart
   
 4. Open the IP-address of the VM in the browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help, bye!  
 <a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
-
-## The Checklist  
-![checklist_page_one](img/check_one.png)  
-  
-![checklist_page_two](img/check_two.png)  
-  
-<a href="https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/checklist_filled_out.pdf" target="_blank">Checklist</a>
