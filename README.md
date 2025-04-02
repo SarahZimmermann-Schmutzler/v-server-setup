@@ -40,10 +40,10 @@ A **VM**, **Virtual Machine** or **Virtual Server** is a software program that r
   
 1. Create a **ED25519 SSH-Key pair** (more secure than RSA SSH-Key pair):
 
-        ```bash
-        ssh-keygen -t ed25519  
-        # choose to use a password or not
-        ```
+    ```bash
+    ssh-keygen -t ed25519  
+    # choose to use a password or not
+    ```
 
 > [!NOTE]
 > It's possible to use the same key for different VMs. If the key is compromised, all connected VMs are affected. It's also possible to generate a separate key pair for each VM, which can then be managed via `~/.ssh/config` for convenience.
@@ -56,9 +56,9 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
 
 1. **Copy and transfer** your public SSH-Key on the VM:
 
-        ```bash
-        ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm
-        ```
+    ```bash
+    ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm
+    ```
   
 * The public SSH-Key is **now stored** in `~/.ssh/authorized_keys`
 
@@ -67,26 +67,29 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
 * The SSH-key can also be copied and added manually to the VM:
   * **Copy** SSH-Key:
 
-        ```bash
-        cat ~/.ssh/id_ed25519.pub
-        ```
+    ```bash
+    cat ~/.ssh/id_ed25519.pub
+    ```
+
   * **Log in** to the VM **with username and password** combination:
 
-        ```bash
-        ssh user_vm@123.456.7.89
-        ```
+    ```bash
+    ssh user_vm@123.456.7.89
+    ```
+
   * On a freshly installed VM, there is usually no `authorized_keys` file, and often there is no `.ssh/` directory in the home folder - create them:
 
-        ```bash
-        mkdir -p ~/.ssh
-        chmod 700 ~/.ssh
-        nano ~/.ssh/authorized_keys
-        ```
+    ```bash
+    mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
+    nano ~/.ssh/authorized_keys
+    ```
+
   * Paste the copied public key into a new line:
 
-        ```bash
-        chmod 600 ~/.ssh/authorized_keys
-        ```
+    ```bash
+    chmod 600 ~/.ssh/authorized_keys
+     ```
 
 2. After you logged out from your VM with `logout` or `exit`, you can now **log in** with the usual `ssh user_vm@ip-address_vm` but **without password query**.
 
