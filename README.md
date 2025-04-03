@@ -5,7 +5,7 @@ This guide was created as part of my **DevSecOps training** at the Developer Aca
 ## Table of Contents
 
 1. [What exactly is a VM?](#what-exactly-is-a-vm)
-1. [The Login](#the-login)
+1. [The secure Login](#the-secure-login)
    * [Create a SSH-Key for your local server](#create-a-ssh-key-for-your-local-server)
    * [Store the SSH-Key on your VM](#store-the-ssh-key-on-your-vm)
    * [Deactivate the possibility to login with a password](#deactivate-the-possebility-to-login-with-a-password)
@@ -15,6 +15,8 @@ This guide was created as part of my **DevSecOps training** at the Developer Aca
 1. [The Web Server - Nginx](#the-web-server---nginx)
    * [Install and Activate Nginx](#install-and-activate-nginx)
    * [Configurate Nginx](#configurate-nginx)
+     * [Create a Customzied Page and configure it](#create-a-customized-page-and-configure-it)
+     * [Set the Alternate Page as Homepage](#set-the-alternate-page-as-homepage)
 
 ## What exactly is a VM?
 
@@ -23,7 +25,7 @@ A **VM**, **Virtual Machine** or **Virtual Server** is a software program that r
 * It can run an **operating system and applications** as if they were running on real hardware.  
 * A software environment called **Hypervisor** creates and manages the VMs.
 
-## The Login
+## The secure Login
 
 ### Create a SSH-Key for your local server
 
