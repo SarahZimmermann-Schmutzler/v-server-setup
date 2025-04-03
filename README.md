@@ -10,8 +10,8 @@ This guide was created as part of my **DevSecOps training** at the Developer Aca
    * [Store the SSH-Key on your VM](#store-the-ssh-key-on-your-vm)
    * [Deactivate the possibility to login with a password](#deactivate-the-possebility-to-login-with-a-password)
    * [Simplify Connection Setup](#simplify-connection-setup)
-     * [Alias the SSH connection](#alias-the-ssh-connection)
-     * [SSH config for several identities](#ssh-config-for-several-identities)
+     * [Alias the SSH Connection](#alias-the-ssh-connection)
+     * [SSH Config for Several Identities](#ssh-config-for-several-identities)
 1. [The Web Server - Nginx](#the-web-server---nginx)
    * [Install and Activate Nginx](#install-and-activate-nginx)
    * [Configurate Nginx](#configurate-nginx)
@@ -140,7 +140,7 @@ To prevent that you have to **deactivate the `PasswordAuthentication` option** i
 
 The command for *establishing an SSH connection** can be quite cumbersome. This can be **remedied** by using a `shell alias` or registering the host in the `config file`.
 
-#### Alias the SSH connection
+#### Alias the SSH Connection
 
 A **shell alias** is an abbreviation or alternative name for a longer command or sequence of commands in the shell. They help commonly used commands run more efficiently and quickly by associating them with shorter or easier-to-remember names.  
   
@@ -190,10 +190,10 @@ By default, aliases are only available for the duration of the current shell ses
     vm_connection
     ```
 
-#### SSH config for several identities  
+#### SSH Config for Several Identities  
 
 On the local server there is a **SSH-Client** or **-Agent** installed that is executed every time a connection to a server is opened.
-You can **register hosts (VMs) or identities** in its configuration file - also with different SSH-Keys.
+You can **register hosts (VMs) and identities (SSH-Keys)** in its configuration file.
 
 1. Open the **SSH-Client `config` file** or create one if there is none
 
@@ -247,107 +247,106 @@ To access the VM via the web browser, a **web server** like `Nginx` is required 
 
 ### Configurate Nginx
 
-If you now browse the IP-address you are welcomed by the Nginx homepage.  
+If you now browse the IP-address you are welcomed by the Nginx homepage. It is stored under `/var/www/html/index.nginx-debian.html`.  
   
-Here is the procedure if you want to be **greeted by your own homepage**:
+The following steps shows how to proceed if you want to **be greeted by your own page**.
 
-1. The default homepage is stored under `/var/www/html/index.nginx-debian.html`.  
-To get our own homepage we create the folder *alternatives* under the path:  
-```console
-sudo mkdir /var/www/alternatives
-```
-  
-2. And add an alternate index.html.  
-```console
-sudo mkdir /var/www/alternatives/alternate-index.html
-```
-  
-Maybe it looks like this:  
-```html
-<!doctype html>
-<html>
-  <head>
-	<meta charset="utf-8">
-	<title>Hello, Nginx!</title>
-  </head>
+#### Create a Customized Page and its Configuration
 
-  <body>
-	<h1>Hello, I am an alternative Homepage for Nginx</h1>
-	<p>Noice to see ya :)</p>
-	<p>You can meet me at IP-address: 116.203.104.65</p>
-  </body>
-</html>
-```
-3. Now we want the alternate index to be loaded by Nginx. Create a Nginx config file for this purpose.  
-```console
-sudo nano /etc/nginx/sites-enabled/alternatives
-```
-> i: By default there is only the default config file that loads the current homepage: /etc/nginx/sites-enabled/default  
-  
-4. Create a server- and a location-block    
-```nginx
-server {
-	listen 8081;
-	listen [::]: 8081;
+1. Create the **directory `alternatives`** under the following path:  
 
-	root /var/www/alternatives;
-	index alternate-index.html
+    ```bash
+    sudo mkdir /var/www/alternatives
+    ```
+  
+1. Add an **alternate index.html**.  
 
-	location / {
-		try_files $uri $uri/ =404;
-	}
-}
-```
-Wait what?  
-> i: server block: Regulates that incoming HTTP-Requests to our IP-address are handled by the Nginx web server.  
+    ```bash
+    sudo nano /var/www/alternatives/alternate-index.html
+    ```
   
-> i: listen 8081: The web server now runs on IP-port 8081. The default port is 80 as you can see in the default config file.  
-  
-> i: root and index: Where is the root or where should Nginx look for the home page? The starting point for the web server should be the index alternate-index.html.  
-  
-> i: location block: Takes care of the paths that come after http://IP-address/.  
-  
-5. Restart Nginx to update the news.  
-```console
-sudo service nginx restart
-```
-  
-Is the alternate homepage running on `http://ip-adress_vm`?  
-Does the url: `http://ip-address_vm/abc` returns `404 Not Found`?  
-Then everything is as it should be. Congrats!
+* Here is an [example](./alternate-index.html) of what it can look like.  
 
+By default, the **default config file** is loaded, which contains the standard Nginx homepage: `/etc/nginx/sites-enabled/default`.  
+In order for the `alternate index.html` to be loaded by Nginx, a **config file for this purpose** is needed.
 
-Maybe you think `Cool, but I don't want to type every time :8081 as ending... Can I set the alternative index.html as an entry point? For example by forwarding the requests to the default port 80 to 8081?`  
-Excellent question! Yes, you can!
+1. Create a **config file named alternatives**:
 
-#### Procedure  
-1. Modify the default config file.  
-```nginx
-server {
-        listen 80 default_server;
-        listen [::]: 80 default_server;
-
-        server_name _;
-
-	#forwarding to port 8081 (alternatives)
-        location / {
-                proxy_pass http://localhoast:8081;
-		proxy_set_header Host $host;
-        	proxy_set_header X-Real-IP $remote_addr;
-        	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        	proxy_set_header X-Forwarded-Proto $scheme;
-        }
-}
-```
-2. Test if it worked out.  
-```console
-sudo nginx -t
-```
+    ```bash
+    sudo nano /etc/nginx/sites-enabled/alternatives
+    ```
   
-3. If the Test was successful, restart Nginx.  
-```console
-sudo service nginx restart
-```
+1. Create a **server-block**:
+
+    ```nginx
+    server {
+            listen 8081;
+            listen [::]: 8081;
+
+            root /var/www/alternatives;
+            index alternate-index.html
+
+            location / {
+                     try_files $uri $uri/ =404;
+            }
+    }
+    ```
+
+* <ins>Explaination</ins>:
+  * **server block**: It defines a virtual website that listens on specific ports and domains and controls how requests are processed and content is delivered.
+
+    * **listen 8081 and [::]: 8081**: The web server now listens on IP-port 8081 for IPv4 and IPv6. Requests that go to this port end up in this server block.
+      * **`alternate-index-html` will be running at `http://ip-adress_vm:8081`**
   
-4. Open the IP-address of the VM in the browser. The alternative homepage should open. If yes, well done! If not, ask ChatGPT for help, bye!  
-<a href="http://116.203.104.65/" target="_blank">Alternate Nginx Homepage</a>
+    * **root**: Specifies the root directory for this website. All URLs processed here refer to files in this folder.
+
+    * **index**: When a user simply calls / (all paths, no specific file: http://IP-address:8081/), nginx tries to load alternate-index.html.
+  
+    * **location block**: Takes care of the paths that come after http://IP-address:8081/. In this case, it checks whether a file ($uri) or directory ($uri/) with exactly this path exists. If it doesn't, a 404 error is displayed. This prevents nginx from forwarding anything that doesn't exist.
+      * The url `http://ip-address_vm/abc` will return the error `404 Not Found` because there is no file or dirextory called *abc*.
+
+1. **Restart Nginx**:
+
+    ```bash
+    sudo service nginx restart
+    ```
+  
+#### Set the Alternate Page as Homepage
+
+Requests without a port specification land on port 80 (http) by default. This is where the nginx standard page is currently displayed. To display the **alternative page as the homepage**, a redirect can be set up in the server block on port 80, which **automatically forwards requests to port 8081**.
+
+1. Modify the **`default config` file**.  
+
+    ```nginx
+    server {
+           listen 80 default_server;
+           listen [::]: 80 default_server;
+
+           server_name _;
+
+           #forwarding to port 8081 (alternate-index.html)
+           location / {
+                    proxy_pass http://localhost:8081;
+                    proxy_set_header Host $host;
+                    proxy_set_header X-Real-IP $remote_addr;
+                    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    proxy_set_header X-Forwarded-Proto $scheme;
+           }
+    }
+    ```
+
+1. Perform a **syntax and plausibility check** of the customized configuration file:  
+
+    ```bash
+    sudo nginx -t
+    ```
+  
+1. If it was successful, **restart Nginx**:  
+
+    ```bash
+    sudo service nginx restart
+    ```
+  
+1. If you now **browse the IP-address of your VM**, the alternative homepage should be displayed:
+
+  ![alternate_homepage](./img/alternate.png)
