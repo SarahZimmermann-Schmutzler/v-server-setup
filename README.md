@@ -247,19 +247,19 @@ To access the VM via the web browser, a **web server** like `Nginx` is required 
 
 ### Configurate Nginx
 
-If you now browse the IP-address you are welcomed by the Nginx homepage. It is stored under `/var/www/html/index.nginx-debian.html`.  
+If you now **browse the IP-address of your VM** you are welcomed by the **Nginx homepage**. It is stored under `/var/www/html/index.nginx-debian.html`.  
   
 The following steps shows how to proceed if you want to **be greeted by your own page**.
 
-#### Create a Customized Page and its Configuration
+#### Create a Customized Page and configure it
 
-1. Create the **directory `alternatives`** under the following path:  
+1. Create a **directory called `alternatives`** under the following path:  
 
     ```bash
     sudo mkdir /var/www/alternatives
     ```
   
-1. Add an **alternate index.html**.  
+1. Add a customized index page called **alternate-index.html**.  
 
     ```bash
     sudo nano /var/www/alternatives/alternate-index.html
@@ -267,17 +267,15 @@ The following steps shows how to proceed if you want to **be greeted by your own
   
 * Here is an [example](./alternate-index.html) of what it can look like.  
 
-By default, the **default config file** is loaded, which contains the standard Nginx homepage: `/etc/nginx/sites-enabled/default`.  
-In order for the `alternate index.html` to be loaded by Nginx, a **config file for this purpose** is needed.
+By default, the **default configuration file** is loaded, which contains the standard Nginx homepage: `/etc/nginx/sites-enabled/default`.  
+In order for the `alternate-index.html` to be loaded by Nginx, a **special configuration file** is needed.
 
-1. Create a **config file named alternatives**:
+1. Create a **configuration file named `alternatives`** with the following **content**:
 
     ```bash
     sudo nano /etc/nginx/sites-enabled/alternatives
     ```
   
-1. Create a **server-block**:
-
     ```nginx
     server {
             listen 8081;
@@ -305,7 +303,7 @@ In order for the `alternate index.html` to be loaded by Nginx, a **config file f
     * **location block**: Takes care of the paths that come after http://IP-address:8081/. In this case, it checks whether a file ($uri) or directory ($uri/) with exactly this path exists. If it doesn't, a 404 error is displayed. This prevents nginx from forwarding anything that doesn't exist.
       * The url `http://ip-address_vm/abc` will return the error `404 Not Found` because there is no file or dirextory called *abc*.
 
-1. **Restart Nginx**:
+2. **Restart Nginx**:
 
     ```bash
     sudo service nginx restart
@@ -313,9 +311,10 @@ In order for the `alternate index.html` to be loaded by Nginx, a **config file f
   
 #### Set the Alternate Page as Homepage
 
-Requests without a port specification land on port 80 (http) by default. This is where the nginx standard page is currently displayed. To display the **alternative page as the homepage**, a redirect can be set up in the server block on port 80, which **automatically forwards requests to port 8081**.
+Requests without a port specification land on port 80 (http) by default. This is where the Nginx standard page is currently displayed.  
+To display the **alternative page as the homepage**, a redirect can be set up in the server block on port 80, which **automatically forwards requests to port 8081**:
 
-1. Modify the **`default config` file**.  
+1. **Modify the default configuration file** under `/etc/nginx/sites-enabled/default`:  
 
     ```nginx
     server {
@@ -335,7 +334,7 @@ Requests without a port specification land on port 80 (http) by default. This is
     }
     ```
 
-1. Perform a **syntax and plausibility check** of the customized configuration file:  
+1. Perform a **syntax and plausibility check**:  
 
     ```bash
     sudo nginx -t
@@ -347,6 +346,6 @@ Requests without a port specification land on port 80 (http) by default. This is
     sudo service nginx restart
     ```
   
-1. If you now **browse the IP-address of your VM**, the alternative homepage should be displayed:
+1. If you now **browse the IP-address of your VM**, the **alternative homepage** should be displayed:
 
   ![alternate_homepage](./img/alternate.png)
