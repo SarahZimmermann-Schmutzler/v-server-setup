@@ -12,6 +12,9 @@ This guide was created as part of my **DevSecOps training** at the Developer Aca
    * [Simplify Connection Setup](#simplify-connection-setup)
      * [Alias the SSH Connection](#alias-the-ssh-connection)
      * [SSH Config for Several Identities](#ssh-config-for-several-identities)
+1. [Further Security Precautions](#further-security-precautions)
+   * [Change the SSH-Port](#change-ssh-port)
+   * [Install Fail2Ban](#install-fail2ban)
 1. [The Web Server - Nginx](#the-web-server---nginx)
    * [Install and Activate Nginx](#install-and-activate-nginx)
    * [Configurate Nginx](#configurate-nginx)
@@ -57,10 +60,10 @@ A **VM**, **Virtual Machine** or **Virtual Server** is a software program that r
   
 Therefore, it is recommended to **store the SSH-Key on the VM** so that you can login with it instead of a password.
 
-1. **Copy and transfer** your public SSH-Key on the VM:
+1. **Copy and transfer** your public SSH-Key on the VM with the program `ssh-copy-id`:
 
     ```bash
-    ssh-copy-id -i path/to/your/id_ed25519.pub user_vm@ip-address_vm
+    ssh-copy-id -i ~/.ssh/id_ed25519.pub user_vm@ip-address_vm
     ```
   
 * The public SSH-Key is **now stored** in `~/.ssh/authorized_keys`
@@ -94,10 +97,10 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
     chmod 600 ~/.ssh/authorized_keys
      ```
 
-2. After you logged out from your VM with `logout` or `exit`, you can now **log in** with the usual `ssh user_vm@ip-address_vm` but **without password query**.
+2. Do not close the session but open a new terminal and **log in** with the usual `ssh user_vm@ip-address_vm` but **without password query**.
 
 > [!CAUTION]
-> **Make sure your SSH-Key access is working** before proceeding to the next step!
+> **Make sure your SSH-Key access is working** before closing the current session or proceeding to the next step!
 
 ### Deactivate the possebility to login with a password
 
@@ -123,13 +126,7 @@ To prevent that you have to **deactivate the `PasswordAuthentication` option** i
 
 1. **Check** if the password authentication was **successfully issued**:
 
-* **Log out of the VM**:
-
-    ```bash
-    logout
-    ```
-
-* Try to **log in with password authetication by explicitly disabling public key authentication**:  
+* Open a new terminal and try to **log in with password authetication by explicitly disabling public key authentication**:  
 
     ```bash
     ssh -o PubkeyAuthentication=no user_vm@ip-address_vm
@@ -197,7 +194,7 @@ By default, aliases are only available for the duration of the current shell ses
 On the local server there is a **SSH-Client** or **-Agent** installed that is executed every time a connection to a server is opened.
 You can **register hosts (VMs) and identities (SSH-Keys)** in its configuration file.
 
-1. Open the **SSH-Client `config` file** or create one if there is none
+1. Open the **SSH-Client `config` file** or create one if there is none:
 
     ```bash
     nano ~/.ssh/config
@@ -215,8 +212,110 @@ You can **register hosts (VMs) and identities (SSH-Keys)** in its configuration 
   
 1. Connect to the VM just with the **defined host profile name**.  
 
-    ```console
+    ```bash
     ssh vm1
+    ```
+
+## Further Security Precautions
+
+### Change the SSH-Port
+
+The service **running by default on port 22** is the **SSH server (sshd)**. Whenever you specify ssh user@host without a port, port 22 is automatically used.  
+  
+The problem – everyone knows it. That's why bots, scanners, and attackers around the world systematically try IP addresses on port 22 – and attempt brute-force logins. Even if you have good SSH keys and passwords, you'll often see a ton of connection attempts in the log.  
+  
+While **changing the SSH port isn't a real security measure**, it does reduce the attack surface for simple bots and scanners. Logs stay quieter, and you're less likely to be attacked. In combination with real measures (SSH keys, firewall, fail-to-ban, etc.), it's a **useful addition**.
+
+1. Activate and **change the port in the `sshd_config` file** on the VM from 22 to e.g. **2222**:
+
+    ```bash
+    sudo nano /etc/ssh/sshd_config
+    ```
+
+1. **Restart** the **SSH service**:
+
+    ```bash
+    sudo systemctl restart ssh.service
+    ```
+
+1. **Test the connection** via your local server in a new terminal:
+
+* **Usual SSH connection**:
+
+    ```bash
+    ssh -p 2222 user_vm@ip-adress_vm
+    ```
+
+* Connection with **SSH-Client `config` file** like shown [here](#ssh-config-for-several-identities):
+
+  * Add the **new portnumber to the configuration file**:
+
+    ```bash
+    nano ~/.ssh/config
+    ```
+
+    ```bash
+    Host vm1
+         HostName ip-address_vm
+         User user_vm
+         PreferredAuthentications publickey
+         Port 2222
+         IdentityFile ~/.ssh/id_ed25519
+    ```
+
+  * Connect to the VM with the **defined host profile name**.  
+
+    ```bash
+    ssh vm1
+    ```
+
+### Install Fail2Ban
+
+`Fail2Ban` is a small security program that monitors your log files (e.g., SSH logins) and blocks IP  addresses temporarily or permanently that do suspicious things (e.g., enter the wrong password five times).
+
+* Automatically blocks brute-force attacks.
+
+* Reduces log clutter because of fewer pointless entries from bots.
+
+1. **Install `Fail2Ban`** on the VM:
+
+    ```bash
+    sudo apt install fail2ban
+    ```
+
+1. Create a **customized configuration file** so that the **correct SSH port** is used:
+
+* `Fail2Ban` first loads the user-specific `jail.local` file if it exists. If it doesn't exist or values ​​aren't defined here, the default `jail.conf` file is used.
+
+    ```bash
+    sudo nano /etc/fail2ban/jail.local 
+    ```
+
+    ```bash
+    [sshd]
+    enabled = true
+    port = 2222
+    maxretry = 5
+    bantime = 10m
+    findtime = 10m
+    ```
+
+  * maxretry: Number of failed attempts within the findtime before IP is banned (5)
+  * findtime: Period within which failed attempts are counted (10 minutes)
+  * bantime: How long the IP remains blocked (10 minutes)
+
+1. **Restart `Fail2Ban`**:
+
+    ```bash
+    sudo systemctl restart fail2ban
+    ```
+
+1. To **check the status** use:
+
+    ```bash
+    sudo fail2ban-client status
+    # or
+    sudo fail2ban-client status sshd
     ```
 
 ## The Web Server - Nginx
