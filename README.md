@@ -1,10 +1,12 @@
-# HOW TO SET UP A VM  
+# HOW TO SET UP AN UBUNTU-VM  
 
 This guide was created as part of my **DevSecOps training** at the Developer Academy.  
 
 ## Table of Contents
 
 1. [What exactly is a VM?](#what-exactly-is-a-vm)
+1. [From Root tu User](#from-root-to-user)
+   * [Create a User](#create-a-user)
 1. [The secure Login](#the-secure-login)
    * [Create a SSH-Key for your local server](#create-a-ssh-key-for-your-local-server)
    * [Store the SSH-Key on your VM](#store-the-ssh-key-on-your-vm)
@@ -13,7 +15,8 @@ This guide was created as part of my **DevSecOps training** at the Developer Aca
      * [Alias the SSH Connection](#alias-the-ssh-connection)
      * [SSH Config for Several Identities](#ssh-config-for-several-identities)
 1. [Further Security Precautions](#further-security-precautions)
-   * [Change the SSH-Port](#change-ssh-port)
+   * [Change the SSH-Port](#change-the-ssh-port)
+   * [Activate Firewall ufw](#activate-firewall-ufw)
    * [Install Fail2Ban](#install-fail2ban)
 1. [The Web Server - Nginx](#the-web-server---nginx)
    * [Install and Activate Nginx](#install-and-activate-nginx)
@@ -27,6 +30,47 @@ A **VM**, **Virtual Machine** or **Virtual Server** is a software program that r
 
 * It can run an **operating system and applications** as if they were running on real hardware.  
 * A software environment called **Hypervisor** creates and manages the VMs.
+
+The **following procedure** is aimed at the Linux operating system, more precisely the **Ubuntu distribution**.
+
+## From Root to User
+
+Almost every new VM works in such a way that the host (cloud provider) gives the user **root access** to the VM directly.  
+You must **log in as root with the default password** because there are no other users initially. The password is usually replaced with your own password the first time you log in.  
+  
+According to the saying `Don’t be root unless you really, really have to`, it is safer to create a user even for personal use.
+
+* Root logins are the first target of SSH brute-force attacks. In an emergency, attackers can immediately take over your system. Instead, disable SSH login for root unless it is otherwise circumvented.
+
+* One wrong command as root can destroy your entire system. Better work with the normal user + sudo.
+
+* You can't properly monitor who did what if multiple people use the same root account.
+
+### Create a User
+
+1. **Log in** in to the VM with the **root user account** via SSH:
+
+    ```bash
+    ssh root@ip-address_vm
+    ```
+
+1. **Create a user** with a name, password and, if necessary, additional information:
+
+    ```bash
+    adduser user_vm
+    ```
+
+1. Add the user to the **sudo group**:
+
+    ```bash
+    usermod -aG sudo user_vm
+    ```
+
+1. Test if it worked by opening a **new terminal** and establishing an **SSH connection** to the VM with your **new user**. The **password** you entered when creating the user will be used as the password.
+
+    ```bash
+    ssh user_vm@ip-address_vm
+    ```
 
 ## The secure Login
 
@@ -134,6 +178,9 @@ To prevent that you have to **deactivate the `PasswordAuthentication` option** i
 
 * You should get the information:  
 `user_vm@ip-address_vm: Permission denied (pubkey)`
+
+> [!Note]
+> Password login is now disabled for all users, including root. Root can only log in with an SSH-Key if one has been stored for them. If this is the case, **PermitRootLogin** should also be disabled in the `sshd_config` file because **logging in with root**, as [already written above](#from-root-to-user), represents a **security risk**.
 
 ### Simplify Connection Setup
 
@@ -269,6 +316,11 @@ While **changing the SSH port isn't a real security measure**, it does reduce th
     ssh vm1
     ```
 
+### Activate Firewall ufw
+
+
+
+
 ### Install Fail2Ban
 
 `Fail2Ban` is a small security program that monitors your log files (e.g., SSH logins) and blocks IP  addresses temporarily or permanently that do suspicious things (e.g., enter the wrong password five times).
@@ -300,17 +352,17 @@ While **changing the SSH port isn't a real security measure**, it does reduce th
     findtime = 10m
     ```
 
-  * maxretry: Number of failed attempts within the findtime before IP is banned (5)
-  * findtime: Period within which failed attempts are counted (10 minutes)
-  * bantime: How long the IP remains blocked (10 minutes)
+  * **maxretry**: Number of failed attempts within the findtime before IP is banned (5)
+  * **findtime**: Period within which failed attempts are counted (10 minutes)
+  * **bantime**: How long the IP remains blocked (10 minutes)
 
-1. **Restart `Fail2Ban`**:
+3. **Restart `Fail2Ban`**:
 
     ```bash
     sudo systemctl restart fail2ban
     ```
 
-1. To **check the status** use:
+4. To **check the status** use:
 
     ```bash
     sudo fail2ban-client status
