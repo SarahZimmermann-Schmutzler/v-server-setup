@@ -26,34 +26,34 @@ While **changing the SSH port isn't a real security measure**, it does reduce th
 
 1. **Test the connection** via your local server in a new terminal:
 
-* **Usual SSH connection**:
+    * **Usual SSH connection**:
 
-    ```bash
-    ssh -p 2222 user_vm@ip-adress_vm
-    ```
+        ```bash
+        ssh -p 2222 user_vm@ip-adress_vm
+        ```
 
-* Connection with **SSH-Client `config` file** like shown [here](login.md#ssh-config-for-several-identities):
+    * Connection with **SSH-Client `config` file** like shown [here](./login.md#ssh-config-for-several-identities):
 
-  * Add the **new portnumber to the configuration file**:
+        * Add the **new portnumber to the configuration file**:
 
-    ```bash
-    nano ~/.ssh/config
-    ```
+            ```bash
+            nano ~/.ssh/config
+            ```
 
-    ```bash
-    Host vm1
-         HostName ip-address_vm
-         User user_vm
-         PreferredAuthentications publickey
-         Port 2222
-         IdentityFile ~/.ssh/id_ed25519
-    ```
+            ```bash
+            Host vm1
+                HostName ip-address_vm
+                User user_vm
+                PreferredAuthentications publickey
+                Port 2222
+                IdentityFile ~/.ssh/id_ed25519
+            ```
 
-  * Connect to the VM with the **defined host profile name**.  
+        * Connect to the VM with the **defined host profile name**.  
 
-    ```bash
-    ssh vm1
-    ```
+            ```bash
+            ssh vm1
+            ```
 
 ## Activate Firewall ufw
 

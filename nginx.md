@@ -54,7 +54,7 @@ The following steps shows how to proceed if you want to **be greeted by your own
     sudo nano /var/www/alternatives/alternate-index.html
     ```
   
-* Here is an [example](./alternate-index.html) of what it can look like.  
+    * Here is an [example](./alternate-index.html) of what it can look like.  
 
 By default, the **default configuration file** is loaded, which contains the standard Nginx homepage: `/etc/nginx/sites-enabled/default`.  
 In order for the `alternate-index.html` to be loaded by Nginx, a **special configuration file** is needed.
@@ -79,20 +79,20 @@ In order for the `alternate-index.html` to be loaded by Nginx, a **special confi
     }
     ```
 
-* <ins>Explaination</ins>:
-  * **server block**: It defines a virtual website that listens on specific ports and domains and controls how requests are processed and content is delivered.
+    * <ins>Explaination</ins>:
+        * **server block**: It defines a virtual website that listens on specific ports and domains and controls how requests are processed and content is delivered.
 
-    * **listen 8081 and [::]: 8081**: The web server now listens on IP-port 8081 for IPv4 and IPv6. Requests that go to this port end up in this server block.
-      * **`alternate-index-html` will be running at `http://ip-adress_vm:8081`**
-  
-    * **root**: Specifies the root directory for this website. All URLs processed here refer to files in this folder.
+            * **listen 8081 and [::]: 8081**: The web server now listens on IP-port 8081 for IPv4 and IPv6. Requests that go to this port end up in this server block.
+                * **`alternate-index-html` will be running at `http://ip-adress_vm:8081`**
 
-    * **index**: When a user simply calls / (all paths, no specific file: http://IP-address:8081/), nginx tries to load alternate-index.html.
-  
-    * **location block**: Takes care of the paths that come after http://IP-address:8081/. In this case, it checks whether a file ($uri) or directory ($uri/) with exactly this path exists. If it doesn't, a 404 error is displayed. This prevents nginx from forwarding anything that doesn't exist.
-      * The url `http://ip-address_vm/abc` will return the error `404 Not Found` because there is no file or dirextory called *abc*.
+            * **root**: Specifies the root directory for this website. All URLs processed here refer to files in this folder.
 
-2. **Restart Nginx**:
+            * **index**: When a user simply calls / (all paths, no specific file: http://IP-address:8081/), nginx tries to load alternate-index.html.
+
+            * **location block**: Takes care of the paths that come after http://IP-address:8081/. In this case, it checks whether a file ($uri) or directory ($uri/) with exactly this path exists. If it doesn't, a 404 error is displayed. This prevents nginx from forwarding anything that doesn't exist.
+                * The url `http://ip-address_vm/abc` will return the error `404 Not Found` because there is no file or dirextory called *abc*.
+
+1. **Restart Nginx**:
 
     ```bash
     sudo service nginx restart

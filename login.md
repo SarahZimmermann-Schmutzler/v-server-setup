@@ -63,6 +63,8 @@ According to the saying `Don’t be root unless you really, really have to`, it 
   * The **private key** should be kept secure and secret. It is saved on the client (your computer) and is used to authenticate to a server.  
   * The **public key** can be passed on without hesitation or stored on the server you want to log in to. It is used to encrypt messages that can only be decrypted with the corresponding private key.
 
+**Create your SSH-Key pair**:
+
 1. Open the program **Git Bash** as admin on your local platform, e.g. Windows.  
   
 1. Create a **ED25519 SSH-Key pair** (more secure than RSA SSH-Key pair):
@@ -87,38 +89,38 @@ Therefore, it is recommended to **store the SSH-Key on the VM** so that you can 
     ssh-copy-id -i ~/.ssh/id_ed25519.pub user_vm@ip-address_vm
     ```
   
-* The public SSH-Key is **now stored** in `~/.ssh/authorized_keys`
+    * The public SSH-Key is **now stored** in `~/.ssh/authorized_keys`
 
-#### **If this fails**
+        **If this fails**
 
-* The SSH-key can also be copied and added manually to the VM:
-  * **Copy** SSH-Key:
+        * The SSH-key can also be copied and added manually to the VM:
+            * **Copy** SSH-Key:
 
-    ```bash
-    cat ~/.ssh/id_ed25519.pub
-    ```
+                ```bash
+                cat ~/.ssh/id_ed25519.pub
+                ```
 
-  * **Log in** to the VM **with username and password** combination:
+            * **Log in** to the VM **with username and password** combination:
 
-    ```bash
-    ssh user_vm@ip-address_vm
-    ```
+                ```bash
+                ssh user_vm@ip-address_vm
+                ```
 
-  * On a freshly installed VM, there is usually no `authorized_keys` file, and often there is no `.ssh/` directory in the home folder - **create** them:
+            * On a freshly installed VM, there is usually no `authorized_keys` file, and often there is no `.ssh/` directory in the home folder - **create** them:
 
-    ```bash
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
-    nano ~/.ssh/authorized_keys
-    ```
+                ```bash
+                mkdir -p ~/.ssh
+                chmod 700 ~/.ssh
+                nano ~/.ssh/authorized_keys
+                ```
 
-  * **Paste the copied public key** into a new line:
+            * **Paste the copied public key** into a new line:
 
-    ```bash
-    chmod 600 ~/.ssh/authorized_keys
-     ```
+                ```bash
+                chmod 600 ~/.ssh/authorized_keys
+                ```
 
-2. Do not close the session but open a new terminal and **log in** with the usual `ssh user_vm@ip-address_vm` but **without password query**.
+1. Do not close the session but open a new terminal and **log in** with the usual `ssh user_vm@ip-address_vm` but **without password query**.
 
 > [!CAUTION]
 > **Make sure your SSH-Key access is working** before closing the current session or proceeding to the next step!
@@ -129,7 +131,7 @@ Even if you now log in using an SSH-key, the **password login is still active** 
 
 * If no SSH-Key is found when attempting an SSH connection, you will automatically be asked for the password. An attacker can therefore log in using the username-password combination after guessing it!
 
-To prevent that you have to **deactivate the `PasswordAuthentication` option** in the VM's `sshd_config`.
+To prevent that you have to **deactivate the `PasswordAuthentication` option** in the VM's `sshd_config`:
 
 1. **Open the `sshd_config` file** with an editor:
 
@@ -183,11 +185,11 @@ By default, aliases are only available for the duration of the current shell ses
     fi
     ```
 
-* **Reload** the file:  
+    * **Reload** the file:  
 
-    ```bash
-    source ~/.bash_profile
-    ```
+        ```bash
+        source ~/.bash_profile
+        ```
   
 1. **Open or create the `bashrc`** - the config file for the bash which is, thanks to the bash_profile script, executed every time a terminal is opened:
 
@@ -195,7 +197,7 @@ By default, aliases are only available for the duration of the current shell ses
     nano ~/.bashrc
     ```
 
-1. Add your alias to the document and save it, e.g. vm_connection:
+1. Add **your alias** to the document and save it, e.g. vm_connection:
 
     ```bash
     alias vm_connection="ssh user_vm@ip-address_vm"
@@ -207,7 +209,7 @@ By default, aliases are only available for the duration of the current shell ses
     source ~/.bashrc
     ```
 
-1. After ending the current bash with `logout` or `exit`, **use the alias to log in to the VM**:
+1. Open a new terminal and **use the alias to log in to the VM**:
 
     ```bash
     vm_connection
