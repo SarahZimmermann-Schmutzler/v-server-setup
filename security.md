@@ -105,24 +105,24 @@ It is likely that the Ubuntu-VM has the program `ufw` pre-installed.
 
 1. Create a **customized configuration file** so that the **correct SSH port** is used:
 
-* `Fail2Ban` first loads the user-specific `jail.local` file if it exists. If it doesn't exist or values ​​aren't defined here, the default `jail.conf` file is used.
+    * `Fail2Ban` first loads the user-specific `jail.local` file if it exists. If it doesn't exist or values ​​aren't defined here, the default `jail.conf` file is used.
 
-    ```bash
-    sudo nano /etc/fail2ban/jail.local 
-    ```
+        ```bash
+        sudo nano /etc/fail2ban/jail.local 
+        ```
 
-    ```bash
-    [sshd]
-    enabled = true
-    port = 2222
-    maxretry = 5
-    bantime = 10m
-    findtime = 10m
-    ```
+        ```bash
+        [sshd]
+        enabled = true
+        port = 2222
+        maxretry = 5
+        bantime = 10m
+        findtime = 10m
+        ```
 
-  * **maxretry**: Number of failed attempts within the findtime before IP is banned (5)
-  * **findtime**: Period within which failed attempts are counted (10 minutes)
-  * **bantime**: How long the IP remains blocked (10 minutes)
+        * **maxretry**: Number of failed attempts within the findtime before IP is banned (5)
+        * **findtime**: Period within which failed attempts are counted (10 minutes)
+        * **bantime**: How long the IP remains blocked (10 minutes)
 
 1. **Restart `Fail2Ban`**:
 
