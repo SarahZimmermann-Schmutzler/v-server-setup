@@ -20,16 +20,14 @@ The **following procedure** is aimed at the Linux operating system, more precise
 
 ## The Setup
 
-1. The first part will cover **commissioning and secure [login](./login.md)** to the VM:
+1. The first part will cover **commissioning and secure login** to the VM:
 
-* [From Root to User](./login.md#from-root-to-user)
-
-* [The secure Login](./login.md#the-secure-login)
+* [The Login Process](./login.md)
 
 1. This is followed by **options to secure the VM against attacks**:
 
 * [Further Security Precautions](./security.md)
 
-1. To access the VM via the web browser, a **[web server](./nginx.md)** is required to process the requests. You will learn how to set it up in the third part of the setup:
+1. To access the VM via the web browser, a **web server** is required to process the requests. You will learn how to set it up in the third part of the setup:
 
-* [The Web Server - Nginx](./nginx.md#the-web-server---nginx)
+* [Configurate a Web Server](./nginx.md)
