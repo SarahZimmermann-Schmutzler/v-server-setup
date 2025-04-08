@@ -56,7 +56,7 @@ According to the saying `Don’t be root unless you really, really have to`, it 
 **SSH (Secure Shell)** is a protocol that allows secure access to a remote computer over an insecure network.
 
 * An **SSH-Key (Secure Shell Key)** is a cryptographic key pair used to authenticate SSH connections SSH-Keys are more secure than password-based authentication because they use strong encryption.
-  * Once set up, you no longer have to enter a password to connect to the server. 
+  * Once set up, you no longer have to enter a password to connect to the server.
   * They are also well suited for automated processes and scripts that need to access remote servers in a secure manner.
 
 * It consists of a **private key and a public key**.  

@@ -32,7 +32,7 @@ While **changing the SSH port isn't a real security measure**, it does reduce th
     ssh -p 2222 user_vm@ip-adress_vm
     ```
 
-* Connection with **SSH-Client `config` file** like shown [here](#ssh-config-for-several-identities):
+* Connection with **SSH-Client `config` file** like shown [here](login.md#ssh-config-for-several-identities):
 
   * Add the **new portnumber to the configuration file**:
 
