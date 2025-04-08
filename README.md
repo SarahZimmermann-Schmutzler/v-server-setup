@@ -24,10 +24,10 @@ The **following procedure** is aimed at the Linux operating system, more precise
 
 * [The Login Process](./login.md)
 
-1. This is followed by **options to secure the VM against attacks**:
+2. This is followed by **options to secure the VM against attacks**:
 
 * [Further Security Precautions](./security.md)
 
-1. To access the VM via the web browser, a **web server** is required to process the requests. You will learn how to set it up in the third part of the setup:
+3. To access the VM via the web browser, a **web server** is required to process the requests. You will learn how to set it up in the third part of the setup:
 
 * [Configurate a Web Server](./nginx.md)
