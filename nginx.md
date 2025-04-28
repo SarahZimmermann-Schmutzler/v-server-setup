@@ -54,7 +54,7 @@ The following steps shows how to proceed if you want to **be greeted by your own
     sudo nano /var/www/alternatives/alternate-index.html
     ```
   
-    * Here is an [example](./alternate-index.html) of what it can look like.  
+    * Here is an [example](https://github.com/SarahZimmermann-Schmutzler/v-server-setup/blob/main/alternate-index.html) of what it can look like.  
 
 By default, the **default configuration file** is loaded, which contains the standard Nginx homepage: `/etc/nginx/sites-enabled/default`.  
 In order for the `alternate-index.html` to be loaded by Nginx, a **special configuration file** is needed.
@@ -137,4 +137,4 @@ To display the **alternative page as the homepage**, a redirect can be set up in
   
 1. If you now **browse the IP-address of your VM**, the **alternative homepage** should be displayed:
 
-  ![alternate_homepage](./img/alternate.png)
+  ![alternate_homepage](https://raw.githubusercontent.com/SarahZimmermann-Schmutzler/v-server-setup/main/img/alternate.png)
